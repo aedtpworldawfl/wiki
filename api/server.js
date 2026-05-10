@@ -4,19 +4,6 @@
   Stack : Node.js + Express
   Deploy: Render / Railway / Replit / any Node host
   Port  : process.env.PORT (default 3000)
-
-  GitHub API is used as the storage layer:
-    - accounts  → github.com/aedtpworldawfl/wiki/accounts/
-    - images    → github.com/aedtpworldawfl/wiki/images/
-    - wiki html → github.com/aedtpworldawfl/wiki/awfl/wiki/
-
-  .env required vars:
-    GITHUB_TOKEN   = your GitHub personal access token (repo scope)
-    GITHUB_OWNER   = aedtpworldawfl
-    GITHUB_REPO    = wiki
-    JWT_SECRET     = any long random string
-    PORT           = 3000  (optional)
-    FRONTEND_ORIGIN= https://aedtpworldawfl.github.io  (CORS)
 */
 
 require('dotenv').config();
@@ -30,37 +17,32 @@ const { Octokit } = require('@octokit/rest');
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
-/* ── GitHub client ─────────────────────────────────────────────── */
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 const GH = {
   owner : process.env.GITHUB_OWNER || 'aedtpworldawfl',
   repo  : process.env.GITHUB_REPO  || 'wiki',
 };
 
-/* ── Middleware ─────────────────────────────────────────────────── */
 app.use(cors({ origin: process.env.FRONTEND_ORIGIN || '*', credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits : { fileSize: 8 * 1024 * 1024 }, // 8 MB max
+  limits : { fileSize: 8 * 1024 * 1024 },
   fileFilter(_req, file, cb) {
     const ok = /^image\/(jpeg|png)$/.test(file.mimetype);
     cb(ok ? null : new Error('Only JPEG and PNG files are allowed'), ok);
   },
 });
 
-/* ── Helpers ────────────────────────────────────────────────────── */
 function sha256(str) {
   return crypto.createHash('sha256').update(str).digest('hex');
 }
-
 function signToken(payload) {
   return jwt.sign(payload, process.env.JWT_SECRET || 'awflmeta_secret', { expiresIn: '7d' });
 }
-
 function verifyToken(req, res, next) {
-  const auth = req.headers.authorization || '';
+  const auth  = req.headers.authorization || '';
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
   if (!token) return res.status(401).json({ error: 'Not authenticated' });
   try {
@@ -71,175 +53,128 @@ function verifyToken(req, res, next) {
   }
 }
 
-/* ── GitHub file helpers ────────────────────────────────────────── */
 async function ghGet(path) {
   try {
     const { data } = await octokit.repos.getContent({ ...GH, path });
-    return {
-      content: Buffer.from(data.content, 'base64').toString('utf8'),
-      sha    : data.sha,
-    };
+    return { content: Buffer.from(data.content, 'base64').toString('utf8'), sha: data.sha };
   } catch (e) {
     if (e.status === 404) return null;
     throw e;
   }
 }
-
 async function ghPut(path, contentStr, message, sha) {
-  const params = {
-    ...GH, path, message,
-    content: Buffer.from(contentStr, 'utf8').toString('base64'),
-  };
+  const params = { ...GH, path, message, content: Buffer.from(contentStr, 'utf8').toString('base64') };
   if (sha) params.sha = sha;
   await octokit.repos.createOrUpdateFileContents(params);
 }
-
 async function ghPutBinary(path, buffer, message, sha) {
-  const params = {
-    ...GH, path, message,
-    content: buffer.toString('base64'),
-  };
+  const params = { ...GH, path, message, content: buffer.toString('base64') };
   if (sha) params.sha = sha;
   await octokit.repos.createOrUpdateFileContents(params);
 }
 
-/* ── Accounts helpers ───────────────────────────────────────────── */
 const ACCOUNTS_PATH = 'accounts/accounts.json';
-
 async function loadAccounts() {
   const file = await ghGet(ACCOUNTS_PATH);
   if (!file) return { users: [], _sha: null };
-  const parsed = JSON.parse(file.content);
-  return { ...parsed, _sha: file.sha };
+  return { ...JSON.parse(file.content), _sha: file.sha };
 }
-
 async function saveAccounts(data) {
   const { _sha, ...payload } = data;
-  await ghPut(
-    ACCOUNTS_PATH,
-    JSON.stringify(payload, null, 2),
-    'Update accounts',
-    _sha,
-  );
+  await ghPut(ACCOUNTS_PATH, JSON.stringify(payload, null, 2), 'Update accounts', _sha);
 }
 
-/* ══════════════════════════════════════════════════════════════════
-   ROUTES
-══════════════════════════════════════════════════════════════════ */
+/* ── AUTO-UPDATE index.json ─────────────────────────────────────────
+   Called after every publish. Reads the current index, upserts the
+   new entry, and writes it back to awfl/wiki/index.json on GitHub.
+   The frontend fetches this file to show the public page list.
+─────────────────────────────────────────────────────────────────── */
+const INDEX_PATH = 'awfl/wiki/index.json';
 
-/* ── Health ─────────────────────────────────────────────────────── */
+async function updateIndex(slug, title) {
+  // Read existing index (or start fresh)
+  let index = [];
+  let sha   = null;
+  const file = await ghGet(INDEX_PATH);
+  if (file) {
+    try { index = JSON.parse(file.content); } catch { index = []; }
+    sha = file.sha;
+  }
+
+  // Upsert entry
+  const i = index.findIndex(p => p.slug === slug);
+  const entry = { slug, title, updated: Date.now() };
+  if (i >= 0) index[i] = entry;
+  else index.push(entry);
+
+  // Sort newest first
+  index.sort((a, b) => b.updated - a.updated);
+
+  await ghPut(INDEX_PATH, JSON.stringify(index, null, 2), `Index: update ${slug}`, sha);
+}
+
+/* ══ ROUTES ════════════════════════════════════════════════════════ */
+
 app.get('/', (_req, res) => res.json({ status: 'AWFLMETA API running' }));
 
-/* ────────────────────────────────────────────────────────────────
-   AUTH : Create Account
-   POST /api/auth/create
-   body: { username, password }
-──────────────────────────────────────────────────────────────── */
 app.post('/api/auth/create', async (req, res) => {
   try {
     const { username = '', password = '' } = req.body;
-
-    // Validate username (no spaces)
-    if (!username || /\s/.test(username)) {
+    if (!username || /\s/.test(username))
       return res.status(400).json({ error: 'Username must not contain spaces.' });
-    }
-
-    // Validate password (no spaces, min 8 chars)
-    if (!password || /\s/.test(password)) {
+    if (!password || /\s/.test(password))
       return res.status(400).json({ error: 'Password must not contain spaces.' });
-    }
-    if (password.length < 8) {
+    if (password.length < 8)
       return res.status(400).json({ error: 'Password must be at least 8 characters.' });
-    }
 
     const accounts = await loadAccounts();
     if (!accounts.users) accounts.users = [];
-
-    // Check username exists
-    const exists = accounts.users.find(
-      u => u.username.toLowerCase() === username.toLowerCase(),
-    );
-    if (exists) {
+    if (accounts.users.find(u => u.username.toLowerCase() === username.toLowerCase()))
       return res.status(409).json({ error: 'Username already exists. Please choose another.' });
-    }
 
-    // Store hashed password
-    accounts.users.push({
-      username,
-      passwordHash: sha256(password),
-      createdAt   : new Date().toISOString(),
-    });
-
+    accounts.users.push({ username, passwordHash: sha256(password), createdAt: new Date().toISOString() });
     await saveAccounts(accounts);
-    const token = signToken({ username });
-    res.json({ token, username });
+    res.json({ token: signToken({ username }), username });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Server error: ' + e.message });
   }
 });
 
-/* ────────────────────────────────────────────────────────────────
-   AUTH : Sign In
-   POST /api/auth/signin
-   body: { username, password }
-──────────────────────────────────────────────────────────────── */
 app.post('/api/auth/signin', async (req, res) => {
   try {
     const { username = '', password = '' } = req.body;
-
-    if (!username || /\s/.test(username)) {
+    if (!username || /\s/.test(username))
       return res.status(400).json({ error: 'Username must not contain spaces.' });
-    }
-    if (!password || /\s/.test(password) || password.length < 8) {
+    if (!password || /\s/.test(password) || password.length < 8)
       return res.status(400).json({ error: 'Password must be at least 8 characters and contain no spaces.' });
-    }
 
     const accounts = await loadAccounts();
-    const user = (accounts.users || []).find(
-      u => u.username.toLowerCase() === username.toLowerCase(),
-    );
-
-    if (!user || user.passwordHash !== sha256(password)) {
+    const user = (accounts.users || []).find(u => u.username.toLowerCase() === username.toLowerCase());
+    if (!user || user.passwordHash !== sha256(password))
       return res.status(401).json({ error: 'Incorrect username or password.' });
-    }
 
-    const token = signToken({ username: user.username });
-    res.json({ token, username: user.username });
+    res.json({ token: signToken({ username: user.username }), username: user.username });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Server error: ' + e.message });
   }
 });
 
-/* ────────────────────────────────────────────────────────────────
-   AUTH : Verify Token (for page-load session restore)
-   GET /api/auth/verify
-──────────────────────────────────────────────────────────────── */
 app.get('/api/auth/verify', verifyToken, (req, res) => {
   res.json({ username: req.user.username });
 });
 
-/* ────────────────────────────────────────────────────────────────
-   UPLOAD : Image
-   POST /api/upload/image  (multipart/form-data, field: "image")
-   Auth required
-──────────────────────────────────────────────────────────────── */
 app.post('/api/upload/image', verifyToken, upload.single('image'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No image file provided.' });
-
     const ext      = req.file.mimetype === 'image/png' ? '.png' : '.jpg';
     const baseName = req.file.originalname.replace(/[^a-zA-Z0-9_\-\.]/g, '_');
     const fileName = baseName.endsWith(ext) ? baseName : baseName.replace(/\.[^.]+$/, '') + ext;
     const ghPath   = `images/${fileName}`;
-
-    // Check if file already exists (to get SHA for update)
     const existing = await ghGet(ghPath);
     await ghPutBinary(ghPath, req.file.buffer, `Upload image: ${fileName}`, existing?.sha);
-
-    const url = `https://raw.githubusercontent.com/${GH.owner}/${GH.repo}/main/${ghPath}`;
-    res.json({ url, fileName, path: ghPath });
+    res.json({ url: `https://raw.githubusercontent.com/${GH.owner}/${GH.repo}/main/${ghPath}`, fileName, path: ghPath });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: e.message || 'Upload failed.' });
@@ -247,24 +182,17 @@ app.post('/api/upload/image', verifyToken, upload.single('image'), async (req, r
 });
 
 /* ────────────────────────────────────────────────────────────────
-   WIKI : Publish Page
-   POST /api/wiki/publish
-   body: { slug, title, htmlContent }
-   Auth required
+   WIKI : Publish Page  ← updateIndex() added here
 ──────────────────────────────────────────────────────────────── */
 app.post('/api/wiki/publish', verifyToken, async (req, res) => {
   try {
     const { slug, title, htmlContent } = req.body;
-
-    if (!slug || !title || !htmlContent) {
+    if (!slug || !title || !htmlContent)
       return res.status(400).json({ error: 'slug, title and htmlContent are required.' });
-    }
 
-    // Sanitise slug: spaces→underscore, only word chars
     const safeSlug = slug.replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
     const ghPath   = `awfl/wiki/${safeSlug}.html`;
 
-    // Full stand-alone HTML page
     const fileContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -292,8 +220,12 @@ ${htmlContent}
 </body>
 </html>`;
 
+    // 1. Save the HTML page
     const existing = await ghGet(ghPath);
     await ghPut(ghPath, fileContent, `Publish wiki: ${safeSlug}`, existing?.sha);
+
+    // 2. Auto-update index.json (non-blocking — don't fail publish if index update fails)
+    updateIndex(safeSlug, title).catch(e => console.error('Index update failed:', e.message));
 
     const pageUrl = `https://${GH.owner}.github.io/${GH.repo}/awfl/wiki/${safeSlug}.html`;
     res.json({ url: pageUrl, slug: safeSlug, path: ghPath });
@@ -305,20 +237,27 @@ ${htmlContent}
 
 /* ────────────────────────────────────────────────────────────────
    WIKI : List Published Pages
-   GET /api/wiki/list
-   Public
+   GET /api/wiki/list  — reads index.json (fast) with fallback to
+   directory listing (slower but always accurate)
 ──────────────────────────────────────────────────────────────── */
 app.get('/api/wiki/list', async (_req, res) => {
   try {
+    // Try index.json first (fast)
+    const indexFile = await ghGet(INDEX_PATH);
+    if (indexFile) {
+      const index = JSON.parse(indexFile.content);
+      return res.json({ pages: index.map(p => ({
+        slug : p.slug,
+        title: p.title,
+        updated: p.updated,
+        url  : `https://${GH.owner}.github.io/${GH.repo}/awfl/wiki/${p.slug}.html`,
+      }))});
+    }
+    // Fallback: directory listing (no titles, but always works)
     const { data } = await octokit.repos.getContent({ ...GH, path: 'awfl/wiki' });
     const pages = Array.isArray(data)
-      ? data
-          .filter(f => f.name.endsWith('.html'))
-          .map(f => ({
-            slug: f.name.replace('.html', ''),
-            url : `https://${GH.owner}.github.io/${GH.repo}/awfl/wiki/${f.name}`,
-            sha : f.sha,
-          }))
+      ? data.filter(f => f.name.endsWith('.html') && f.name !== 'index.html')
+             .map(f => ({ slug: f.name.replace('.html',''), url: `https://${GH.owner}.github.io/${GH.repo}/awfl/wiki/${f.name}` }))
       : [];
     res.json({ pages });
   } catch (e) {
@@ -327,14 +266,8 @@ app.get('/api/wiki/list', async (_req, res) => {
   }
 });
 
-/* ── Escape helper for HTML output ──────────────────────────────── */
 function escapeHtml(s) {
-  return String(s || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ── Start ──────────────────────────────────────────────────────── */
 app.listen(PORT, () => console.log(`AWFLMETA API listening on port ${PORT}`));
