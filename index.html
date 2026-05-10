@@ -1,19 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -650,7 +634,7 @@ textarea.form-input{resize:vertical;min-height:70px}
    Change API_BASE to your deployed backend URL.
    Example: https://awflmeta-api.onrender.com
 ─────────────────────────────────────────────────────────────────── */
-const API_BASE = 'https://awflmeta-api.onrender.com'; // ← CHANGE THIS
+const API_BASE = https://awflmeta-api.onrender.com'; // ← CHANGE THIS
 const GH_WIKI_BASE = 'https://aedtpworldawfl.github.io/wiki/awfl/wiki/';
 
 /* ─── STATE ─────────────────────────────────────────────────────── */
@@ -886,29 +870,134 @@ function toSlug(str){
   return str.replace(/\s+/g,'_').replace(/[^\w\-]/g,'');
 }
 
+/* ─── FETCH PUBLISHED PAGES FROM GITHUB (public, no auth needed) ── */
+const GH_RAW = 'https://raw.githubusercontent.com/aedtpworldawfl/wiki/main/awfl/wiki/';
+const GH_API_TREE = 'https://api.github.com/repos/aedtpworldawfl/wiki/contents/awfl/wiki';
+
+// publishedPages: array of { slug, title, url, content }
+let publishedPages = [];
+
+async function fetchPublishedPages(){
+  try{
+    const res  = await fetch(GH_API_TREE);
+    if(!res.ok) return;
+    const files = await res.json();
+    const htmlFiles = Array.isArray(files) ? files.filter(f=>f.name.endsWith('.html')) : [];
+    // Fetch each page content in parallel
+    const fetched = await Promise.all(htmlFiles.map(async f=>{
+      const slug = f.name.replace('.html','');
+      try{
+        const r   = await fetch(GH_RAW + f.name);
+        const raw = await r.text();
+        // Extract title from <h1> or <title>
+        const h1match    = raw.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+        const titlematch = raw.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+        let title = h1match
+          ? h1match[1].replace(/<[^>]+>/g,'').trim()
+          : (titlematch ? titlematch[1].replace(/\s*—.*$/,'').trim() : slug.replace(/_/g,' '));
+        // Extract body content between <h1> and footer
+        const bodyMatch = raw.match(/<h1[^>]*>[\s\S]*?<\/h1>([\s\S]*?)<hr/i);
+        const content   = bodyMatch ? bodyMatch[1].trim() : '';
+        return { slug, title, url: GH_WIKI_BASE + slug + '.html', content, raw };
+      } catch{ return null; }
+    }));
+    publishedPages = fetched.filter(Boolean);
+    renderPageList(document.getElementById('page-search').value);
+    // Re-route in case hash was set before pages loaded
+    routeFromHash();
+  } catch(e){ console.warn('Could not fetch published pages:', e); }
+}
+
 /* ─── PAGE LIST ─────────────────────────────────────────────────── */
 function renderPageList(filter=''){
   const list = document.getElementById('page-list');
-  const ids = Object.keys(pages).filter(id=>{
-    const p=pages[id];
-    return !filter || p.title.toLowerCase().includes(filter.toLowerCase());
-  }).sort((a,b)=>pages[b].updated-pages[a].updated);
-  document.getElementById('page-count').textContent = Object.keys(pages).length;
-  if(!ids.length){
+  const lf   = (filter||'').toLowerCase();
+
+  // Merge: published pages (for everyone) + local unpublished drafts (for signed-in user)
+  const localDrafts = Object.keys(pages)
+    .filter(id=>!pages[id].published)
+    .map(id=>({ _localId: id, slug: pages[id].slug, title: pages[id].title, draft: true }));
+
+  const pubFiltered = publishedPages.filter(p=>
+    !lf || p.title.toLowerCase().includes(lf) || p.slug.toLowerCase().includes(lf)
+  );
+  const draftFiltered = currentUser
+    ? localDrafts.filter(p=> !lf || p.title.toLowerCase().includes(lf))
+    : [];
+
+  const total = pubFiltered.length + draftFiltered.length;
+  document.getElementById('page-count').textContent = total;
+
+  if(!total){
     list.innerHTML='<div style="padding:20px;text-align:center;color:var(--text3);font-size:13px">No pages yet</div>';
     return;
   }
-  list.innerHTML = ids.map(id=>{
-    const p=pages[id];
-    const d=new Date(p.updated).toLocaleDateString();
-    return `<div class="page-item${id===currentPageId?' active':''}" onclick="loadPage('${id}')">
+
+  const pubHTML = pubFiltered.map(p=>`
+    <div class="page-item${currentPageId===p.slug?' active':''}" onclick="loadPublishedPage('${esc(p.slug)}')">
       <div class="page-item-title">${esc(p.title)}</div>
-      <div class="page-item-date">${d} · ${esc(p.slug)}</div>
-    </div>`;
-  }).join('');
+      <div class="page-item-date">Published · ${esc(p.slug)}</div>
+    </div>`).join('');
+
+  const draftHTML = draftFiltered.map(p=>`
+    <div class="page-item${currentPageId===p._localId?' active':''}" onclick="loadPage('${p._localId}')">
+      <div class="page-item-title">${esc(p.title)} <span style="color:var(--gold);font-size:10px">DRAFT</span></div>
+      <div class="page-item-date">Unpublished draft</div>
+    </div>`).join('');
+
+  list.innerHTML = (draftHTML ? `<div style="padding:6px 14px;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em">Drafts</div>`+draftHTML : '')
+    + (pubHTML ? `<div style="padding:6px 14px;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em">Published</div>`+pubHTML : '');
 }
 
 function filterPages(v){ renderPageList(v); }
+
+/* ─── LOAD A PUBLISHED PAGE (from GitHub, for everyone) ─────────── */
+async function loadPublishedPage(slug){
+  if(isEditMode && currentPageId){
+    if(!confirm('Discard unsaved changes?')) return;
+    exitEdit();
+  }
+  currentPageId = slug; // use slug as ID for published pages
+  renderPageList(document.getElementById('page-search').value);
+
+  const p = publishedPages.find(x=>x.slug===slug);
+  if(!p){ toast('Page not found','err'); return; }
+
+  document.getElementById('wiki-title-display').textContent = p.title;
+  document.getElementById('wiki-date-tag').textContent      = 'Published';
+  document.getElementById('wiki-slug-tag').textContent      = p.slug;
+
+  const linkEl = document.getElementById('wiki-page-link');
+  linkEl.innerHTML = `🔗 <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.url)}</a>`;
+  linkEl.style.display = 'block';
+
+  document.getElementById('wiki-content').innerHTML = p.content ||
+    `<p style="color:var(--text3)">Loading…</p>`;
+  document.getElementById('infobox-container').style.display = 'none';
+
+  // Show edit button only for signed-in users
+  if(currentUser){
+    document.getElementById('btn-edit').style.display   = 'flex';
+    document.getElementById('btn-delete').style.display = 'flex';
+  } else {
+    document.getElementById('btn-edit').style.display   = 'none';
+    document.getElementById('btn-delete').style.display = 'none';
+  }
+  document.getElementById('btn-save').style.display      = 'none';
+  document.getElementById('fmt-section').style.display   = 'none';
+  document.getElementById('color-section').style.display = 'none';
+  document.getElementById('clip-section').style.display  = 'none';
+
+  window.location.hash = '#' + slug;
+
+  // Also mirror into local pages store so edit/save works
+  const existingLocal = Object.keys(pages).find(id=>pages[id].slug===slug);
+  if(!existingLocal){
+    const id = 'p_gh_'+slug;
+    pages[id] = { title:p.title, slug, content:p.content, created:Date.now(), updated:Date.now(), published:true, pageUrl:p.url };
+    saveData();
+  }
+}
 
 /* ─── LOAD PAGE ─────────────────────────────────────────────────── */
 function loadPage(id){
@@ -1384,15 +1473,3 @@ window.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
