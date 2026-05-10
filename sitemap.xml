@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/1.0">
+
+<!-- Main Pages -->
+
+<url>
+  <loc>https://awflwiki.neocities.org/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<url>
+  <loc>https://awflwiki.neocities.org/ai/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<url>
+  <loc>https://awflwiki.neocities.org/artists/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<url>
+  <loc>https://awflwiki.neocities.org/biography/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<url>
+  <loc>https://awflwiki.neocities.org/business/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<url>
+  <loc>https://awflwiki.neocities.org/dictionary/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<url>
+  <loc>https://awflwiki.neocities.org/education/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<url>
+  <loc>https://awflwiki.neocities.org/music/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<url>
+  <loc>https://awflwiki.neocities.org/news/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<url>
+  <loc>https://awflwiki.neocities.org/wiki/</loc>
+  <changefreq>daily</changefreq>
+  <priority>1.0</priority>
+</url>
+
+</urlset>
