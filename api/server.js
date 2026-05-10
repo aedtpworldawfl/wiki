@@ -84,6 +84,33 @@ async function saveAccounts(data) {
   await ghPut(ACCOUNTS_PATH, JSON.stringify(payload, null, 2), 'Update accounts', _sha);
 }
 
+/* ── AUTO-UPDATE sitemap.xml ────────────────────────────────────────
+   Called after every publish. Reads sitemap.xml, adds the new page
+   URL if not already present, and writes it back to GitHub.
+─────────────────────────────────────────────────────────────────── */
+const SITEMAP_PATH = 'sitemap.xml';
+const BASE_URL     = `https://${process.env.GITHUB_OWNER || 'aedtpworldawfl'}.github.io/${process.env.GITHUB_REPO || 'wiki'}`;
+
+async function updateSitemap(slug) {
+  const file = await ghGet(SITEMAP_PATH);
+  let xml  = file ? file.content : `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/1.0">\n</urlset>`;
+  const sha = file?.sha;
+
+  // Don't add duplicates
+  if (xml.includes(`/awfl/wiki/${slug}.html`)) return;
+
+  const entry = `
+  <url>
+    <loc>${BASE_URL}/awfl/wiki/${slug}.html</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>`;
+
+  xml = xml.replace('</urlset>', `${entry}\n\n</urlset>`);
+  await ghPut(SITEMAP_PATH, xml, `Sitemap: add ${slug}`, sha);
+}
+
 /* ── AUTO-UPDATE index.json ─────────────────────────────────────────
    Called after every publish. Reads the current index, upserts the
    new entry, and writes it back to awfl/wiki/index.json on GitHub.
@@ -224,8 +251,9 @@ ${htmlContent}
     const existing = await ghGet(ghPath);
     await ghPut(ghPath, fileContent, `Publish wiki: ${safeSlug}`, existing?.sha);
 
-    // 2. Auto-update index.json (non-blocking — don't fail publish if index update fails)
+    // 2. Auto-update index.json and sitemap.xml (non-blocking)
     updateIndex(safeSlug, title).catch(e => console.error('Index update failed:', e.message));
+    updateSitemap(safeSlug).catch(e => console.error('Sitemap update failed:', e.message));
 
     const pageUrl = `https://${GH.owner}.github.io/${GH.repo}/awfl/wiki/${safeSlug}.html`;
     res.json({ url: pageUrl, slug: safeSlug, path: ghPath });
