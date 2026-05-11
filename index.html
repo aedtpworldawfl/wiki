@@ -998,33 +998,86 @@ function exitEdit(){
 }
 
 /* ─── SAVE & PUBLISH ─── */
-async function saveCurrentPage(){
-  if(!currentPageId){ toast('No page to save','err'); return; }
-  if(!currentUser){ toast('Sign in to save','err'); return; }
-  const wc=document.getElementById('wiki-content');
-  const p=localPages[currentPageId];
-  p.content=wc.innerHTML; p.updated=Date.now();
+/* ─────────────────────────────────────────────────────────────────
+   AWFLMETA wiki.js  — INFOBOX FIX PATCH
+   Replace / add these two functions in your existing wiki.js.
+
+   What changed vs the old version:
+   • saveCurrentPage() now collects infoboxData from localStorage
+     and sends it as a separate JSON field to the server.
+   • collectInternalIbData() is a tiny helper that reads the
+     infoboxes object for the current page.
+
+   The server does ALL rendering — no client-side buildInfoboxHTML()
+   is needed any more (though you can keep it for the live preview).
+─────────────────────────────────────────────────────────────────── */
+
+/* ─── Helper: collect infobox data for the current page ─── */
+function collectInternalIbData(pageId) {
+  if (!pageId) return null;
+  const ib = infoboxes[pageId];
+  if (!ib || !Array.isArray(ib.fields) || !ib.fields.length) return null;
+  // Only return fields that have at least a key
+  const fields = ib.fields.filter(f => f.key && f.key.trim());
+  if (!fields.length) return null;
+  return { template: ib.template || 'Custom', fields };
+}
+
+/* ─── SAVE & PUBLISH ─── */
+async function saveCurrentPage() {
+  if (!currentPageId) { toast('No page to save', 'err'); return; }
+  if (!currentUser)   { toast('Sign in to save', 'err'); return; }
+
+  const wc = document.getElementById('wiki-content');
+  const p  = localPages[currentPageId];
+
+  // Persist content + timestamp locally
+  p.content = wc.innerHTML;
+  p.updated = Date.now();
   saveLocalData();
+
   exitEdit();
   renderPageList(document.getElementById('page-search').value);
-  document.getElementById('wiki-date-tag').textContent=new Date().toLocaleString();
-  toast('Saving & publishing…','inf');
+  document.getElementById('wiki-date-tag').textContent = new Date().toLocaleString();
+  toast('Saving & publishing…', 'inf');
 
-  try{
-    const result=await api('POST','/api/wiki/publish',{slug:p.slug,title:p.title,htmlContent:p.content});
-    p.published=true; p.pageUrl=result.url;
+  // Collect infobox (null if none)
+  const infoboxData = collectInternalIbData(currentPageId);
+
+  try {
+    const result = await api('POST', '/api/wiki/publish', {
+      slug        : p.slug,
+      title       : p.title,
+      htmlContent : p.content,  // editor body HTML
+      infoboxData,              // { template, fields } or null
+    });
+
+    p.published = true;
+    p.pageUrl   = result.url;
     saveLocalData();
-    // Update public cache
-    publicPages[p.slug]={slug:p.slug,title:p.title,updated:p.updated,content:p.content};
-    try{ localStorage.setItem('awflmeta_public_cache',JSON.stringify(publicPages)); }catch{}
+
+    // Update the public in-memory cache (content includes infobox
+    // on the server, but for local preview we keep them separate)
+    publicPages[p.slug] = {
+      slug   : p.slug,
+      title  : p.title,
+      updated: p.updated,
+      content: p.content,
+    };
+    try {
+      localStorage.setItem('awflmeta_public_cache', JSON.stringify(publicPages));
+    } catch {}
+
     renderPageList(document.getElementById('page-search').value);
-    const linkEl=document.getElementById('wiki-page-link');
-    linkEl.innerHTML=`🔗 <a href="${esc(result.url)}" target="_blank" rel="noopener">${esc(result.url)}</a>`;
-    linkEl.style.display='block';
-    document.getElementById('wiki-public-badge').style.display='inline-flex';
-    toast('Published ✓ — '+result.url,'ok');
-  } catch(e){
-    toast('Saved locally. Remote publish failed: '+e.message,'err');
+
+    const linkEl = document.getElementById('wiki-page-link');
+    linkEl.innerHTML = `🔗 <a href="${esc(result.url)}" target="_blank" rel="noopener">${esc(result.url)}</a>`;
+    linkEl.style.display = 'block';
+    document.getElementById('wiki-public-badge').style.display = 'inline-flex';
+
+    toast('Published ✓ — ' + result.url, 'ok');
+  } catch (e) {
+    toast('Saved locally. Remote publish failed: ' + e.message, 'err');
   }
 }
 
