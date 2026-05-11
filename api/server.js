@@ -5,11 +5,12 @@
   Deploy: Render / Railway / Replit / any Node host
   Port  : process.env.PORT (default 3000)
 
-  INFOBOX FIX (2025):
-  - /api/wiki/publish now accepts optional `infoboxData` JSON alongside htmlContent
-  - buildInfoboxHTML() renders it server-side with full inline styles
-  - Published .html files always contain the infobox — no localStorage needed
-  - Frontend must send: { slug, title, htmlContent, infoboxData: { template, fields:[{key,value}] } }
+  FIXES (2025):
+  - Image URLs: fixImageUrl() ensures all image srcs are absolute,
+    resolving the /awfl/wiki/images/... broken path bug.
+  - Upload response now returns both `url` (raw) and `pagesUrl` (GitHub Pages).
+  - buildInfoboxHTML() handles image, audio, video, link, plain text, AND table fields.
+  - buildPageHTML() wraps everything in a fully styled, self-contained HTML page.
 */
 
 require('dotenv').config();
@@ -69,8 +70,23 @@ function escapeHtml(s) {
     .replace(/"/g,  '&quot;');
 }
 
-function isUrl(v)      { return /^https?:\/\//.test(v); }
-function isImageUrl(v) { return /\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(v); }
+function isAbsoluteUrl(v) { return /^https?:\/\//.test(v); }
+function isImageUrl(v)    { return /\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(v); }
+
+/* ── fixImageUrl ────────────────────────────────────────────────────
+   Uploaded images live at:
+     https://aedtpworldawfl.github.io/wiki/images/file.jpg  (Pages URL)
+     https://raw.githubusercontent.com/.../main/images/file.jpg (raw URL)
+   Both are valid. But if the editor stored a relative path like
+   "images/buddydml.jpg" the browser resolves it against the published
+   page location (/awfl/wiki/) giving a 404. This makes every src absolute.
+─────────────────────────────────────────────────────────────────── */
+function fixImageUrl(url) {
+  if (!url) return url;
+  if (isAbsoluteUrl(url)) return url;
+  const clean = url.replace(/^\//, '');
+  return `https://${GH.owner}.github.io/${GH.repo}/${clean}`;
+}
 
 /* ══ GITHUB I/O ═════════════════════════════════════════════════════ */
 
@@ -129,7 +145,7 @@ async function updateSitemap(slug) {
     : `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/1.0">\n</urlset>`;
   const sha = file?.sha;
 
-  if (xml.includes(`/awfl/wiki/${slug}.html`)) return; // no duplicates
+  if (xml.includes(`/awfl/wiki/${slug}.html`)) return;
 
   const entry = `
   <url>
@@ -166,10 +182,31 @@ async function updateIndex(slug, title) {
 }
 
 /* ══ INFOBOX HTML BUILDER ════════════════════════════════════════════
-   Converts { template: "Artist", fields: [{key,value}, ...] }
-   into a self-contained HTML block with full inline styles.
-   Works for ALL infobox types (image, audio, video, link, text, table).
-   Output is embedded directly into the published .html file body.
+
+   Accepts:
+     infoboxData = {
+       template : "Artist" | "Person" | "Business" | "Custom" | …
+       fields   : [
+         { key: "Image",        value: "https://…/photo.jpg" },
+         { key: "Name",         value: "Buddy DML" },
+         { key: "Genre",        value: "Afrobeats\nHiplife" },
+         { key: "Website",      value: "https://buddydml.com" },
+         { key: "Promo",        value: "https://…/promo.mp4" },
+         { key: "Audio Sample", value: "https://…/track.mp3" },
+         { key: "Discography",  value: "table:Album|Year|Label\nOne More|2021|AEDTP\nReflect|2023|AEDTP" },
+       ]
+     }
+
+   Special value formats:
+     "table:Col1|Col2\nRow1Val1|Row1Val2"  →  nested HTML table inside the cell
+     https://….mp4 / key contains "video"  →  <video> player
+     https://….mp3 / key contains "audio"  →  <audio> player
+     https://….jpg|png|gif|webp|svg        →  inline <img>
+     https://… (any other)                 →  hyperlink ↗
+     plain text                             →  text (newlines → <br>)
+
+   All image srcs pass through fixImageUrl() to guarantee absolute paths.
+
 ═══════════════════════════════════════════════════════════════════════ */
 
 function buildInfoboxHTML(infoboxData) {
@@ -183,72 +220,100 @@ function buildInfoboxHTML(infoboxData) {
   const nameF = fields.find(f => f.key && f.key.toLowerCase() === 'name');
   const rows  = fields.filter(f => f.key && f.value && f.key.toLowerCase() !== 'image');
 
-  /* ── Styles (all inline so they work in standalone .html files) ── */
+  /* ── Inline style constants ── */
   const S = {
-    wrap      : 'float:right;clear:right;margin:0 0 20px 28px;background:#141820;border:1px solid #3a4870;border-radius:8px;width:268px;font-size:13px;overflow:hidden;font-family:"IBM Plex Sans",Arial,sans-serif;line-height:1.5;box-shadow:0 4px 18px rgba(0,0,0,.45)',
-    titleBar  : 'background:#252d40;padding:9px 13px;font-weight:700;font-size:14px;border-bottom:1px solid #3a4870;text-align:center;color:#e8edf5;letter-spacing:.02em',
-    imgWrap   : 'border-bottom:1px solid #2a3450;text-align:center;overflow:hidden;background:#1a2030',
-    img       : 'width:100%;height:auto;max-height:210px;object-fit:cover;display:block',
-    caption   : 'font-size:11px;color:#6b7a95;padding:5px 10px;text-align:center;background:#1a2030;border-bottom:1px solid #2a3450',
-    table     : 'width:100%;border-collapse:collapse',
-    trEven    : 'border-bottom:1px solid rgba(42,52,80,.5);background:#141820',
-    trOdd     : 'border-bottom:1px solid rgba(42,52,80,.5);background:#101318',
-    th        : 'background:#1a2030;padding:6px 10px;font-size:12px;font-weight:600;color:#6b7a95;text-align:left;width:42%;vertical-align:top;border-right:1px solid #2a3450',
-    td        : 'padding:6px 10px;font-size:12px;color:#e8edf5;vertical-align:top',
-    link      : 'color:#4a9eff;text-decoration:none;font-size:12px;word-break:break-all',
-    thumbImg  : 'max-width:100%;max-height:80px;border-radius:4px;display:block',
-    video     : 'width:100%;max-height:130px;border-radius:4px;display:block;margin:2px 0',
-    audio     : 'width:100%;display:block;margin:2px 0',
+    wrap     : 'float:right;clear:right;margin:0 0 20px 28px;background:#141820;border:1px solid #3a4870;border-radius:8px;width:280px;font-size:13px;overflow:hidden;font-family:"IBM Plex Sans",Arial,sans-serif;line-height:1.5;box-shadow:0 4px 18px rgba(0,0,0,.45)',
+    titleBar : 'background:#252d40;padding:9px 13px;font-weight:700;font-size:14px;border-bottom:1px solid #3a4870;text-align:center;color:#e8edf5;letter-spacing:.02em',
+    imgWrap  : 'border-bottom:1px solid #2a3450;text-align:center;overflow:hidden;background:#1a2030',
+    imgTag   : 'width:100%;height:auto;max-height:220px;object-fit:cover;display:block',
+    caption  : 'font-size:11px;color:#6b7a95;padding:5px 10px;text-align:center;background:#1a2030;border-bottom:1px solid #2a3450',
+    table    : 'width:100%;border-collapse:collapse',
+    trEven   : 'border-bottom:1px solid rgba(42,52,80,.5);background:#141820',
+    trOdd    : 'border-bottom:1px solid rgba(42,52,80,.5);background:#101318',
+    th       : 'background:#1a2030;padding:6px 10px;font-size:12px;font-weight:600;color:#6b7a95;text-align:left;width:42%;vertical-align:top;border-right:1px solid #2a3450',
+    td       : 'padding:6px 10px;font-size:12px;color:#e8edf5;vertical-align:top',
+    link     : 'color:#4a9eff;text-decoration:none;font-size:12px;word-break:break-all',
+    thumbImg : 'max-width:100%;max-height:80px;border-radius:4px;display:block',
+    video    : 'width:100%;max-height:130px;border-radius:4px;display:block;margin:2px 0',
+    audio    : 'width:100%;display:block;margin:2px 0',
+    /* nested table styles */
+    nTable   : 'width:100%;border-collapse:collapse;margin:2px 0;font-size:11px',
+    nTh      : 'background:#0f131a;padding:3px 6px;color:#a0aec0;font-weight:600;border:1px solid #2a3450;text-align:left',
+    nTd      : 'padding:3px 6px;color:#e8edf5;border:1px solid #1e2535;vertical-align:top',
+    nTrEven  : 'background:#141820',
+    nTrOdd   : 'background:#101318',
   };
 
+  /* ── Render a nested table from "table:Col1|Col2\nVal1|Val2" ── */
+  function renderNestedTable(raw) {
+    const lines = raw.replace(/^table:/i, '').split('\n').map(l => l.trim()).filter(Boolean);
+    if (!lines.length) return escapeHtml(raw);
+    const headers  = lines[0].split('|');
+    const dataRows = lines.slice(1);
+    let t = `<table style="${S.nTable}"><thead><tr>`;
+    headers.forEach(h => { t += `<th style="${S.nTh}">${escapeHtml(h.trim())}</th>`; });
+    t += `</tr></thead><tbody>`;
+    dataRows.forEach((row, ri) => {
+      const cells    = row.split('|');
+      const rowStyle = ri % 2 === 0 ? S.nTrEven : S.nTrOdd;
+      t += `<tr style="${rowStyle}">`;
+      cells.forEach(c => { t += `<td style="${S.nTd}">${escapeHtml(c.trim())}</td>`; });
+      t += `</tr>`;
+    });
+    t += `</tbody></table>`;
+    return t;
+  }
+
+  /* ── Render a single field value into cell HTML ── */
+  function renderCell(f) {
+    const kl  = f.key.toLowerCase();
+    const val = f.value;
+
+    if (/^table:/i.test(val)) {
+      return renderNestedTable(val);
+    }
+    if (kl.includes('video') || /\.(mp4|webm|ogg|mov)(\?|$)/i.test(val)) {
+      return `<video src="${escapeHtml(fixImageUrl(val))}" controls style="${S.video}"></video>`;
+    }
+    if (kl.includes('audio') || kl.includes('music') || kl.includes('sound') ||
+        /\.(mp3|wav|ogg|flac|aac|m4a)(\?|$)/i.test(val)) {
+      return `<audio src="${escapeHtml(fixImageUrl(val))}" controls style="${S.audio}"></audio>`;
+    }
+    if (isImageUrl(val)) {
+      return `<img src="${escapeHtml(fixImageUrl(val))}" alt="${escapeHtml(f.key)}" loading="lazy" style="${S.thumbImg}">`;
+    }
+    if (isAbsoluteUrl(val)) {
+      const label = val.replace(/^https?:\/\//, '').replace(/\/$/, '').substring(0, 34);
+      return `<a href="${escapeHtml(val)}" target="_blank" rel="noopener" style="${S.link}">${escapeHtml(label)} ↗</a>`;
+    }
+    return escapeHtml(val).replace(/\n/g, '<br>');
+  }
+
+  /* ── Assemble ── */
   let html = `<div style="${S.wrap}">`;
 
-  /* Title bar */
   html += `<div style="${S.titleBar}">${escapeHtml(template)}</div>`;
 
-  /* Image row */
   if (imgF && imgF.value) {
+    const src = fixImageUrl(imgF.value);
     html += `<div style="${S.imgWrap}">`;
-    html += `<img src="${escapeHtml(imgF.value)}" alt="${escapeHtml(nameF ? nameF.value : template)}" loading="lazy" style="${S.img}">`;
+    html += `<img src="${escapeHtml(src)}" alt="${escapeHtml(nameF ? nameF.value : template)}" loading="lazy" style="${S.imgTag}">`;
     html += `</div>`;
     if (nameF && nameF.value) {
       html += `<div style="${S.caption}">${escapeHtml(nameF.value)}</div>`;
     }
   }
 
-  /* Field rows table */
   if (rows.length) {
     html += `<table style="${S.table}">`;
     rows.forEach((f, idx) => {
       if (!f.key || !f.value) return;
-
-      const kl  = f.key.toLowerCase();
-      const trS = idx % 2 === 0 ? S.trEven : S.trOdd;
-      let cell  = '';
-
-      if (kl.includes('video')) {
-        /* Video field */
-        cell = `<video src="${escapeHtml(f.value)}" controls style="${S.video}"></video>`;
-      } else if (kl.includes('audio')) {
-        /* Audio field */
-        cell = `<audio src="${escapeHtml(f.value)}" controls style="${S.audio}"></audio>`;
-      } else if (isImageUrl(f.value)) {
-        /* Inline image (not the main image) */
-        cell = `<img src="${escapeHtml(f.value)}" alt="${escapeHtml(f.key)}" loading="lazy" style="${S.thumbImg}">`;
-      } else if (isUrl(f.value)) {
-        /* Hyperlink */
-        const label = f.value.replace(/^https?:\/\//, '').replace(/\/$/, '').substring(0, 32);
-        cell = `<a href="${escapeHtml(f.value)}" target="_blank" rel="noopener" style="${S.link}">${escapeHtml(label)} ↗</a>`;
-      } else {
-        /* Plain text — preserve line breaks */
-        cell = escapeHtml(f.value).replace(/\n/g, '<br>');
-      }
-
+      const trStyle = idx % 2 === 0 ? S.trEven : S.trOdd;
       html += `
-      <tr style="${trS}">
-        <th style="${S.th}">${escapeHtml(f.key)}</th>
-        <td style="${S.td}">${cell}</td>
-      </tr>`;
+        <tr style="${trStyle}">
+          <th style="${S.th}">${escapeHtml(f.key)}</th>
+          <td style="${S.td}">${renderCell(f)}</td>
+        </tr>`;
     });
     html += `</table>`;
   }
@@ -257,10 +322,7 @@ function buildInfoboxHTML(infoboxData) {
   return html;
 }
 
-/* ══ PAGE HTML BUILDER ═══════════════════════════════════════════════
-   Wraps the editor content + infobox in a complete, styled HTML page.
-   The infobox is floated right so body text flows around it naturally.
-═══════════════════════════════════════════════════════════════════════ */
+/* ══ PAGE HTML BUILDER ═══════════════════════════════════════════════ */
 
 function buildPageHTML({ slug, title, htmlContent, infoboxHTML }) {
   return `<!DOCTYPE html>
@@ -276,16 +338,16 @@ function buildPageHTML({ slug, title, htmlContent, infoboxHTML }) {
 <meta name="keywords"    content="${escapeHtml(title)}, AEDTP WORLD FREE LICENSE (AWFL) WIKI META, AWFLMETA, AEDTP WORLD">
 <meta name="license"     content="AEDTP WORLD FREE LICENSE (AWFL)">
 <meta name="robots"      content="index, follow">
-<meta name="application-name"  content="AEDTP WORLD FREE LICENSE (AWFL) WIKI META">
-<meta name="application-alias" content="AWFLMETA">
-<meta name="generator"         content="AEDTP WORLD">
-<meta name="email"             content="aedtpworld@gmail.com">
-<meta name="short-name"        content="AWFLMETA">
-<meta name="alias"             content="AWFLMETA">
+<meta name="application-name"    content="AEDTP WORLD FREE LICENSE (AWFL) WIKI META">
+<meta name="application-alias"   content="AWFLMETA">
+<meta name="generator"           content="AEDTP WORLD">
+<meta name="email"               content="aedtpworld@gmail.com">
+<meta name="short-name"          content="AWFLMETA">
+<meta name="alias"               content="AWFLMETA">
 <meta name="AEDTP-WORLD-version" content="1.0.0.0">
-<meta name="apple-mobile-web-app-capable"       content="yes">
+<meta name="apple-mobile-web-app-capable"          content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable"                content="yes">
 <!-- Open Graph -->
 <meta property="og:title"       content="${escapeHtml(title)} — AWFLMETA AEDTP WORLD FREE LICENSE (AWFL) WIKI META">
 <meta property="og:description" content="${escapeHtml(title)} Official WIKI | AWFLMETA — The most advanced WIKI system by AEDTP WORLD.">
@@ -294,76 +356,25 @@ function buildPageHTML({ slug, title, htmlContent, infoboxHTML }) {
 <link rel="icon" href="https://raw.githubusercontent.com/${GH.owner}/${GH.repo}/main/icons/awflmeta.jpg" type="image/jpeg">
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  /* ── Reset ── */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
+  body{background:#0a0c10;color:#e8edf5;font-family:'IBM Plex Sans',Arial,sans-serif;font-size:15px;line-height:1.65;padding:0;margin:0}
 
-  /* ── Page ── */
-  body{
-    background:#0a0c10;
-    color:#e8edf5;
-    font-family:'IBM Plex Sans',Arial,sans-serif;
-    font-size:15px;
-    line-height:1.65;
-    padding:0;
-    margin:0;
-  }
-
-  /* ── Top bar ── */
-  .page-topbar{
-    background:rgba(10,12,16,.97);
-    border-bottom:1px solid #2a3450;
-    padding:10px 28px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    position:sticky;
-    top:0;
-    z-index:100;
-    backdrop-filter:blur(10px);
-  }
-  .page-topbar-brand{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:12px;
-    color:#d4a843;
-    font-weight:600;
-    letter-spacing:.08em;
-    text-decoration:none;
-  }
+  /* Top bar */
+  .page-topbar{background:rgba(10,12,16,.97);border-bottom:1px solid #2a3450;padding:10px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+  .page-topbar-brand{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#d4a843;font-weight:600;letter-spacing:.08em;text-decoration:none}
   .page-topbar-brand:hover{color:#f0c060}
-  .page-topbar-back{
-    font-size:12px;
-    color:#4a9eff;
-    text-decoration:none;
-    display:inline-flex;
-    align-items:center;
-    gap:5px;
-  }
+  .page-topbar-back{font-size:12px;color:#4a9eff;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
   .page-topbar-back:hover{text-decoration:underline}
 
-  /* ── Content wrapper ── */
-  .page-wrap{
-    max-width:960px;
-    margin:0 auto;
-    padding:32px 28px 60px;
-  }
+  /* Layout */
+  .page-wrap{max-width:960px;margin:0 auto;padding:32px 28px 60px}
+  .page-title{font-family:'Crimson Pro',Georgia,serif;font-size:36px;font-weight:300;color:#e8edf5;border-bottom:2px solid #2a3450;padding-bottom:12px;margin-bottom:22px;line-height:1.2}
 
-  /* ── Page title ── */
-  .page-title{
-    font-family:'Crimson Pro',Georgia,serif;
-    font-size:36px;
-    font-weight:300;
-    color:#e8edf5;
-    border-bottom:2px solid #2a3450;
-    padding-bottom:12px;
-    margin-bottom:22px;
-    line-height:1.2;
-  }
-
-  /* ── Clearfix for floated infobox ── */
+  /* Clearfix so body text wraps around floated infobox */
   .wiki-body::after{content:'';display:table;clear:both}
 
-  /* ── Body content typography ── */
+  /* Typography */
   .wiki-body h1{font-family:'Crimson Pro',serif;font-size:28px;font-weight:400;color:#e8edf5;margin:28px 0 12px;border-bottom:1px solid #2a3450;padding-bottom:6px}
   .wiki-body h2{font-family:'Crimson Pro',serif;font-size:23px;font-weight:400;color:#e8edf5;margin:24px 0 10px;border-bottom:1px solid #2a3450;padding-bottom:5px}
   .wiki-body h3{font-family:'Crimson Pro',serif;font-size:19px;font-weight:600;color:#e8edf5;margin:20px 0 8px}
@@ -376,101 +387,54 @@ function buildPageHTML({ slug, title, htmlContent, infoboxHTML }) {
   .wiki-body a{color:#4a9eff;text-decoration:none}
   .wiki-body a:hover{text-decoration:underline}
 
-  /* ── Content images ── */
+  /* Media */
   .wiki-body img{max-width:100%;border-radius:6px;margin:10px 0;height:auto}
   .wiki-body video{max-width:100%;border-radius:6px;margin:10px 0}
   .wiki-body audio{width:100%;margin:10px 0}
 
-  /* ── Content tables ── */
-  .wiki-body table{
-    width:100%;
-    border-collapse:collapse;
-    margin:16px 0;
-    font-size:14px;
-    font-family:'IBM Plex Sans',Arial,sans-serif;
-  }
-  .wiki-body table th{
-    background:#1e2535;
-    padding:8px 12px;
-    text-align:left;
-    font-weight:600;
-    border:1px solid #3a4870;
-    font-size:13px;
-    color:#e8edf5;
-  }
-  .wiki-body table td{
-    padding:7px 12px;
-    border:1px solid #2a3450;
-    vertical-align:top;
-    color:#e8edf5;
-  }
+  /* Content tables */
+  .wiki-body table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;font-family:'IBM Plex Sans',Arial,sans-serif}
+  .wiki-body table th{background:#1e2535;padding:8px 12px;text-align:left;font-weight:600;border:1px solid #3a4870;font-size:13px;color:#e8edf5}
+  .wiki-body table td{padding:7px 12px;border:1px solid #2a3450;vertical-align:top;color:#e8edf5}
   .wiki-body table tr:nth-child(even) td{background:rgba(255,255,255,.025)}
 
-  /* ── TOC ── */
-  #toc,.toc{
-    background:#141820;
-    border:1px solid #2a3450;
-    border-radius:6px;
-    padding:12px 16px;
-    margin-bottom:22px;
-    display:inline-block;
-    min-width:200px;
-    max-width:340px;
-  }
+  /* TOC */
+  #toc,.toc{background:#141820;border:1px solid #2a3450;border-radius:6px;padding:12px 16px;margin-bottom:22px;display:inline-block;min-width:200px;max-width:340px}
   #toc .toc-title,.toc .toc-title{font-size:13px;font-weight:600;color:#e8edf5;margin-bottom:8px}
   #toc a,.toc a{display:block;font-size:13px;color:#4a9eff;margin:3px 0;text-decoration:none}
   #toc a:hover,.toc a:hover{text-decoration:underline}
   #toc .toc-sub,.toc .toc-sub{padding-left:14px;font-size:12px}
 
-  /* ── Footer ── */
-  .page-footer{
-    margin-top:50px;
-    padding-top:18px;
-    border-top:1px solid #2a3450;
-    font-size:12px;
-    color:#6b7a95;
-    font-family:'IBM Plex Mono',monospace;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:8px;
-  }
+  /* Footer */
+  .page-footer{margin-top:50px;padding-top:18px;border-top:1px solid #2a3450;font-size:12px;color:#6b7a95;font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
   .page-footer a{color:#4a9eff;text-decoration:none}
   .page-footer a:hover{text-decoration:underline}
 
-  /* ── Responsive ── */
+  /* Mobile */
   @media(max-width:680px){
     .page-wrap{padding:20px 14px 40px}
     .page-title{font-size:26px}
-    /* stack infobox on mobile */
     div[style*="float:right"]{float:none!important;width:100%!important;margin:0 0 20px 0!important}
   }
 </style>
 </head>
 <body>
 
-<!-- Top Navigation Bar -->
 <div class="page-topbar">
   <a class="page-topbar-brand" href="https://${GH.owner}.github.io/${GH.repo}/">AWFLMETA</a>
   <a class="page-topbar-back" href="https://${GH.owner}.github.io/${GH.repo}/#${slug}">← Back to Wiki</a>
 </div>
 
-<!-- Page Content -->
 <div class="page-wrap">
-
   <h1 class="page-title">${escapeHtml(title)}</h1>
-
   <div class="wiki-body">
     ${infoboxHTML}
     ${htmlContent}
   </div>
-
   <div class="page-footer">
     <span>Published on <a href="https://${GH.owner}.github.io/${GH.repo}/">AWFLMETA</a> · AEDTP WORLD FREE LICENSE (AWFL)</span>
     <span>© AEDTP WORLD · <a href="mailto:aedtpworld@gmail.com">aedtpworld@gmail.com</a></span>
   </div>
-
 </div>
 
 </body>
@@ -538,7 +502,11 @@ app.get('/api/auth/verify', verifyToken, (req, res) => {
   res.json({ username: req.user.username });
 });
 
-/* ── Upload Image ── */
+/* ── Upload Image ─────────────────────────────────────────────────
+   Returns both `url` (raw.githubusercontent.com) and `pagesUrl`
+   (GitHub Pages). Paste pagesUrl into the infobox Image field so
+   the browser resolves it correctly from the published page.
+─────────────────────────────────────────────────────────────────── */
 app.post('/api/upload/image', verifyToken, upload.single('image'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No image file provided.' });
@@ -552,8 +520,12 @@ app.post('/api/upload/image', verifyToken, upload.single('image'), async (req, r
     const existing = await ghGet(ghPath);
     await ghPutBinary(ghPath, req.file.buffer, `Upload image: ${fileName}`, existing?.sha);
 
+    const rawUrl   = `https://raw.githubusercontent.com/${GH.owner}/${GH.repo}/main/${ghPath}`;
+    const pagesUrl = `https://${GH.owner}.github.io/${GH.repo}/${ghPath}`;
+
     res.json({
-      url     : `https://raw.githubusercontent.com/${GH.owner}/${GH.repo}/main/${ghPath}`,
+      url     : rawUrl,   // always works immediately after push
+      pagesUrl,           // use this in infobox Image field
       fileName,
       path    : ghPath,
     });
@@ -564,19 +536,24 @@ app.post('/api/upload/image', verifyToken, upload.single('image'), async (req, r
 });
 
 /* ── Wiki: Publish Page ──────────────────────────────────────────────
+   POST /api/wiki/publish
    Body (JSON):
    {
-     slug        : string   — page slug / URL key
-     title       : string   — page display title
-     htmlContent : string   — innerHTML of the editor (wiki-content div)
-     infoboxData : {        — OPTIONAL; send {} or omit if no infobox
-       template  : string   — e.g. "Artist", "Person", "Business" …
+     slug        : string  — page slug / URL key
+     title       : string  — page display title
+     htmlContent : string  — innerHTML of the wiki-content editor div
+     infoboxData : {       — OPTIONAL; omit or send null if no infobox
+       template  : string  — "Artist" | "Person" | "Business" | "Custom" | …
        fields    : [{ key: string, value: string }, …]
+         Special value formats:
+           "table:Col1|Col2\nVal1|Val2"        → nested HTML table
+           .mp4/.webm / key contains "video"   → <video> player
+           .mp3/.wav  / key contains "audio"   → <audio> player
+           image URL (.jpg/.png/etc)            → inline <img>
+           other https:// URL                  → hyperlink ↗
+           plain text                           → text
      }
    }
-
-   The server renders the infobox server-side so the published .html
-   file is completely self-contained — no JavaScript, no localStorage.
 ──────────────────────────────────────────────────────────────────── */
 app.post('/api/wiki/publish', verifyToken, async (req, res) => {
   try {
@@ -588,24 +565,15 @@ app.post('/api/wiki/publish', verifyToken, async (req, res) => {
     const safeSlug = slug.replace(/\s+/g, '_').replace(/[^\w\-]/g, '');
     const ghPath   = `awfl/wiki/${safeSlug}.html`;
 
-    /* Build infobox HTML (empty string if none provided) */
     const infoboxHTML = buildInfoboxHTML(
       infoboxData && typeof infoboxData === 'object' ? infoboxData : null
     );
 
-    /* Assemble the full page */
-    const fileContent = buildPageHTML({
-      slug     : safeSlug,
-      title,
-      htmlContent,
-      infoboxHTML,
-    });
+    const fileContent = buildPageHTML({ slug: safeSlug, title, htmlContent, infoboxHTML });
 
-    /* Write to GitHub */
     const existing = await ghGet(ghPath);
     await ghPut(ghPath, fileContent, `Publish wiki: ${safeSlug}`, existing?.sha);
 
-    /* Non-blocking: update index.json + sitemap.xml */
     updateIndex(safeSlug, title).catch(e => console.error('Index update failed:', e.message));
     updateSitemap(safeSlug).catch(e => console.error('Sitemap update failed:', e.message));
 
@@ -618,8 +586,7 @@ app.post('/api/wiki/publish', verifyToken, async (req, res) => {
 });
 
 /* ── Wiki: List Published Pages ─────────────────────────────────────
-   GET /api/wiki/list
-   Reads index.json first (fast). Falls back to directory listing.
+   GET /api/wiki/list — reads index.json (fast) or falls back to dir listing
 ──────────────────────────────────────────────────────────────────── */
 app.get('/api/wiki/list', async (_req, res) => {
   try {
@@ -635,7 +602,6 @@ app.get('/api/wiki/list', async (_req, res) => {
         })),
       });
     }
-    /* Fallback: directory listing (no titles) */
     const { data } = await octokit.repos.getContent({ ...GH, path: 'awfl/wiki' });
     const pages = Array.isArray(data)
       ? data
