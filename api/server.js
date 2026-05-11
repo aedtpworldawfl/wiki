@@ -225,8 +225,31 @@ app.post('/api/wiki/publish', verifyToken, async (req, res) => {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${escapeHtml(title)} — AWFLMETA</title>
-<meta name="description" content="AWFLMETA Wiki page: ${escapeHtml(title)}">
+<title>${escapeHtml(title)} — AWFLMETA AEDTP WORLD FREE LICENSE (AWFL) WIKI META</title>
+<meta name="description" content="${escapeHtml(title)} Official WIKI | AEDTP WORLD FREE LICENSE (AWFL) WIKI META Is a WIKI system, application, website, wiki, developed under the AEDTP WORLD FREE LICENSE (AWFL) by the AEDTP WORLD. AEDTP WORLD FREE LICENSE (AWFL) WIKI META or AWFLMETA is part of AEDTP WORLD Ecosystems. The AWFLMETA allows wiki publishing and wiki writing, with any powerful usage.">
+<meta name="type" content="application, website, wiki, AEDTP WORLD">
+<meta name="author" content="AEDTP WORLD">
+<meta name="copyright" content="© AEDTP WORLD">
+<meta name="keywords" content="${escapeHtml(title)}, AEDTP WORLD FREE LICENSE (AWFL) WIKI META, AWFLMETA, AEDTP WORLD, SEARCH ENGINE, Tech Search, Quick Results, Relevant Information Provider, #1 Search Engine, Top Of The List Search Engine, Top Of The List WIKI Engine">
+<meta name="license" content="AEDTP WORLD FREE LICENSE (AWFL)">
+<meta name="robots" content="index, follow">
+<meta name="application-name" content="AEDTP WORLD FREE LICENSE (AWFL) WIKI META">
+<meta name="application-alias" content="AWFLMETA">
+<meta name="generator" content="AEDTP WORLD">
+<meta name="email" content="aedtpworld@gmail.com">
+<meta name="short-name" content="AWFLMETA">
+<meta name="alias" content="AWFLMETA">
+<meta name="AEDTP-WORLD-version" content="1.0.0.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<!-- Open Graph -->
+<meta property="og:title" content="${escapeHtml(title)} — AWFLMETA AEDTP WORLD FREE LICENSE (AWFL) WIKI META">
+<meta property="og:description" content="${escapeHtml(title)} Official WIKI | AEDTP WORLD FREE LICENSE (AWFL) WIKI META — The most advanced WIKI system by AEDTP WORLD.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://raw.githubusercontent.com/aedtpworldawfl/wiki/main/icons/awflmetaawfl.jpg">
+<link rel="icon" href="https://raw.githubusercontent.com/aedtpworldawfl/wiki/main/icons/awflmeta.jpg" type="image/jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   body{font-family:Georgia,serif;max-width:900px;margin:0 auto;padding:24px;background:#0a0c10;color:#e8edf5;line-height:1.75}
   h1,h2,h3{font-weight:400;border-bottom:1px solid #2a3450;padding-bottom:6px}
@@ -239,11 +262,11 @@ app.post('/api/wiki/publish', verifyToken, async (req, res) => {
 </style>
 </head>
 <body>
-<a class="back" href="https://${GH.owner}.github.io/${GH.repo}/#${safeSlug}">← Back to AWFLMETA</a>
+<a class="back" href="https://${GH.owner}.github.io/${GH.repo}/#${safeSlug}">AWFLMETA</a>
 <h1>${escapeHtml(title)}</h1>
 ${htmlContent}
 <hr style="margin-top:40px;border-color:#2a3450">
-<p style="font-size:12px;color:#6b7a95;font-family:sans-serif">Published on AWFLMETA · © AEDTP WORLD</p>
+<p style="font-size:12px;color:#6b7a95;font-family:sans-serif">Published on AWFLMETA | AEDTP WORLD FREE LICENSE (AWFL) · © AEDTP WORLD</p>
 </body>
 </html>`;
 
