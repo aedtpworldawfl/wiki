@@ -1,103 +1,236 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/1.0">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Main Pages -->
+  <!-- ==================== MAIN / ROOT PAGES ==================== -->
   <url>
     <loc>https://aedtpworldawfl.github.io/wiki/</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://aedtpworldawfl.github.io/wiki/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Category Pages -->
+  <!-- ==================== WIKI EDITOR / NEW ==================== -->
   <url>
-    <loc>https://aedtpworldawfl.github.io/wiki/ai/</loc>
+    <loc>https://aedtpworldawfl.github.io/wiki/new/</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
+
+  <!-- ==================== CATEGORY INDEX PAGES ==================== -->
+  <!-- apps -->
   <url>
     <loc>https://aedtpworldawfl.github.io/wiki/apps/</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/apps/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- artists -->
+  <url>
     <loc>https://aedtpworldawfl.github.io/wiki/artists/</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/artists/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- biography -->
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/biography/</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/biography/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- business -->
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/business/</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/business/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- dictionary -->
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/dictionary/</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/dictionary/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- education -->
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/education/</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/education/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- music -->
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/music/</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/music/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- news -->
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/news/</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/news/index.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ==================== ADDITIONAL CATEGORIES (from original) ==================== -->
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/ai/</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aedtpworldawfl.github.io/wiki/awfl/</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aedtpworldawfl.github.io/wiki/bible/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aedtpworldawfl.github.io/wiki/biography/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aedtpworldawfl.github.io/wiki/business/</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aedtpworldawfl.github.io/wiki/developer/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aedtpworldawfl.github.io/wiki/dictionary/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aedtpworldawfl.github.io/wiki/education/</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aedtpworldawfl.github.io/wiki/legacy/</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aedtpworldawfl.github.io/wiki/music/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aedtpworldawfl.github.io/wiki/news/</loc>
-    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://aedtpworldawfl.github.io/wiki/help/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-    <url>
-    <loc>https://aedtpworldawfl.github.io/wiki/new/</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
-  <!-- Wiki Pages (awfl/wiki/) -->
+  <!-- ==================== WIKI PAGES: Buddy_DML.html IN EIGHT FOLDERS ==================== -->
   <url>
-    <loc>https://aedtpworldawfl.github.io/wiki/awfl/wiki/Buddy_DML.html</loc>
+    <loc>https://aedtpworldawfl.github.io/wiki/apps/Buddy_DML.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/artists/Buddy_DML.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/biography/Buddy_DML.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/business/Buddy_DML.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/dictionary/Buddy_DML.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/education/Buddy_DML.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/music/Buddy_DML.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/news/Buddy_DML.html</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-
+  <!-- ==================== awfl/wiki PAGES (keep existing) ==================== -->
+  <url>
+    <loc>https://aedtpworldawfl.github.io/wiki/awfl/wiki/Buddy_DML.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
   <url>
     <loc>https://aedtpworldawfl.github.io/wiki/awfl/wiki/PROJECT_BOOT_DEV.html</loc>
     <lastmod>2026-05-14</lastmod>
