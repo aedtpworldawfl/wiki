@@ -1,1 +1,1778 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEDTP WORLD FREE LICENSE (AWFL) WIKI META</title>
+<meta name="description" content="AEDTP WORLD FREE LICENSE (AWFL) WIKI META Is a WIKI system, application, website, wiki, developed under the AEDTP WORLD FREE LICENSE (AWFL) by the AEDTP WORLD.">
+<meta name="author" content="AEDTP WORLD">
+<meta name="copyright" content="© AEDTP WORLD">
+<meta name="keywords" content="AEDTP WORLD FREE LICENSE (AWFL) WIKI META, AWFLMETA, AEDTP WORLD">
+<meta name="license" content="AEDTP WORLD FREE LICENSE (AWFL)">
+<meta name="robots" content="index, follow">
+<meta name="application-name" content="AEDTP WORLD FREE LICENSE (AWFL) WIKI META">
+<meta name="yandex-verification" content="db1e9172799e8ed7">
+<meta property="og:title" content="AEDTP WORLD FREE LICENSE (AWFL) WIKI META">
+<meta property="og:description" content="AEDTP WORLD FREE LICENSE (AWFL) WIKI META — The most advanced WIKI system by AEDTP WORLD.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://raw.githubusercontent.com/aedtpworldawfl/wiki/main/icons/awflmetaawfl.jpg">
+<link rel="icon" href="https://raw.githubusercontent.com/aedtpworldawfl/wiki/main/icons/awflmeta.jpg" type="image/jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c10;--bg2:#0f1218;--bg3:#141820;--bg4:#1a2030;
+  --surface:#1e2535;--surface2:#252d40;
+  --border:#2a3450;--border2:#3a4870;
+  --accent:#4a9eff;--accent2:#2d7dd2;--accent3:#1a5fa0;
+  --gold:#d4a843;--gold2:#b8891c;
+  --text:#e8edf5;--text2:#a0aec0;--text3:#6b7a95;
+  --green:#3ecf8e;--red:#f87171;--purple:#a78bfa;--teal:#2dd4bf;
+  --header-h:64px;--subnav-h:38px;--tools-w:290px;
+  --font-sans:'IBM Plex Sans',sans-serif;
+  --font-serif:'Crimson Pro',Georgia,serif;
+  --font-mono:'IBM Plex Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:15px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent3)}
+
+/* ── HEADER ── */
+#header{position:fixed;top:0;left:0;right:0;height:var(--header-h);background:rgba(10,12,16,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;z-index:1000;backdrop-filter:blur(14px)}
+#logo-area{display:flex;align-items:center;gap:10px;padding:0 16px;flex-shrink:0;text-decoration:none}
+#logo-area img{width:36px;height:36px;border-radius:6px;object-fit:cover;border:1px solid var(--border2)}
+#logo-text{display:flex;flex-direction:column;line-height:1.1}
+#logo-text .lt1{font-family:var(--font-mono);font-size:11px;color:var(--gold);font-weight:500;letter-spacing:.08em}
+#logo-text .lt2{font-family:var(--font-sans);font-size:13px;color:var(--text);font-weight:600;letter-spacing:.02em}
+#search-wrap{flex:1;display:flex;justify-content:center;padding:0 12px}
+#search-form{display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:22px;width:min(480px,100%);padding:4px 8px 4px 14px;transition:border-color .2s,box-shadow .2s}
+#search-form:focus-within{border-color:var(--accent2);box-shadow:0 0 0 2px rgba(74,158,255,.12)}
+#search-input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:var(--font-sans);font-size:14px;padding:4px 0}
+#search-input::placeholder{color:var(--text3)}
+#search-btn{background:var(--accent2);border:none;cursor:pointer;color:#fff;padding:5px 14px;border-radius:18px;font-size:13px;font-weight:500;transition:background .15s}
+#search-btn:hover{background:var(--accent)}
+#header-actions{display:flex;align-items:center;gap:6px;padding:0 14px;flex-shrink:0}
+.h-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:var(--font-sans)}
+.h-btn:hover{background:var(--surface);color:var(--text);border-color:var(--accent2)}
+.h-btn.primary{background:var(--accent2);color:#fff;border-color:var(--accent)}
+.h-btn.primary:hover{background:var(--accent)}
+
+/* ── SUBNAV ── */
+#subnav{position:fixed;top:var(--header-h);left:0;right:0;height:var(--subnav-h);background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:2px;padding:0 16px;z-index:999;overflow-x:auto}
+#subnav::-webkit-scrollbar{height:2px}
+.snav-btn{display:flex;align-items:center;gap:4px;background:none;border:none;color:var(--text3);padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer;white-space:nowrap;font-family:var(--font-sans);font-weight:500;letter-spacing:.03em;transition:all .15s;text-decoration:none}
+.snav-btn:hover{color:var(--text);background:var(--bg3)}
+.snav-btn.active{color:var(--accent);background:rgba(74,158,255,.08)}
+
+/* ── LAYOUT ── */
+#app{margin-top:calc(var(--header-h) + var(--subnav-h));display:flex;min-height:calc(100vh - var(--header-h) - var(--subnav-h))}
+
+/* ── SIDEBAR ── */
+#sidebar{width:220px;flex-shrink:0;border-right:1px solid var(--border);background:var(--bg2);overflow-y:auto;position:sticky;top:calc(var(--header-h) + var(--subnav-h));height:calc(100vh - var(--header-h) - var(--subnav-h))}
+#sidebar-header{padding:12px 14px 8px;font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--text3);text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.page-item{display:block;padding:8px 14px;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:1px solid rgba(42,52,80,.4);text-decoration:none;transition:all .12s;border-left:3px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.page-item:hover{color:var(--text);background:var(--bg3);border-left-color:var(--accent2)}
+.page-item.active{color:var(--accent);background:rgba(74,158,255,.07);border-left-color:var(--accent)}
+.page-item .page-item-title{font-weight:500;overflow:hidden;text-overflow:ellipsis}
+.page-item .page-item-meta{font-size:11px;color:var(--text3);margin-top:2px;display:flex;gap:6px}
+.page-cat-badge{display:inline-block;background:var(--bg4);border:1px solid var(--border);padding:1px 5px;border-radius:3px;font-size:10px;font-family:var(--font-mono);color:var(--gold);text-transform:uppercase}
+#sidebar-actions{padding:10px 12px;border-bottom:1px solid var(--border)}
+#page-search{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:4px;font-size:12px;outline:none;font-family:var(--font-sans)}
+#page-search:focus{border-color:var(--accent2)}
+#page-search::placeholder{color:var(--text3)}
+#sidebar-cat-filter{display:flex;flex-wrap:wrap;gap:4px;padding:8px 12px;border-bottom:1px solid var(--border)}
+.cat-pill{background:var(--bg4);border:1px solid var(--border);color:var(--text3);padding:2px 7px;border-radius:10px;font-size:11px;cursor:pointer;font-family:var(--font-mono);transition:all .12s}
+.cat-pill:hover{color:var(--text);border-color:var(--border2)}
+.cat-pill.active{background:rgba(74,158,255,.12);border-color:var(--accent2);color:var(--accent)}
+
+/* ── MAIN ── */
+#main{flex:1;min-width:0;display:flex}
+#info-section{flex:1;min-width:0;overflow-y:auto;padding:28px 32px;position:relative}
+#wiki-title-bar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;border-bottom:2px solid var(--border);padding-bottom:14px}
+#wiki-title-display{font-family:var(--font-serif);font-size:32px;font-weight:300;color:var(--text);line-height:1.2;flex:1}
+#wiki-meta-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--text3);margin-top:8px;font-family:var(--font-mono)}
+.wiki-meta-tag{background:var(--bg3);border:1px solid var(--border);padding:2px 8px;border-radius:3px;font-size:11px}
+.wiki-meta-tag.cat{background:rgba(212,168,67,.08);border-color:rgba(212,168,67,.3);color:var(--gold)}
+#wiki-page-link{font-size:11px;color:var(--accent);font-family:var(--font-mono);word-break:break-all;margin-top:6px}
+#wiki-page-link a{color:var(--accent);text-decoration:none}
+#wiki-page-link a:hover{text-decoration:underline}
+
+/* ── INFOBOX ── */
+#infobox-container{float:right;margin:0 0 20px 24px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;width:260px;font-size:13px;overflow:hidden}
+.infobox-title-bar{background:var(--surface2);padding:8px 12px;font-weight:600;font-size:14px;border-bottom:1px solid var(--border2);text-align:center;color:var(--text)}
+.infobox-img-wrap{border-bottom:1px solid var(--border);text-align:center;overflow:hidden;background:var(--bg4)}
+.infobox-img-wrap img{width:100%;height:auto;max-height:200px;object-fit:cover;display:block}
+.infobox-caption{font-size:11px;color:var(--text3);padding:4px 8px;text-align:center;background:var(--bg4);border-bottom:1px solid var(--border)}
+.infobox-table{width:100%;border-collapse:collapse}
+.infobox-table tr{border-bottom:1px solid rgba(42,52,80,.5)}
+.infobox-table tr:last-child{border-bottom:none}
+.infobox-table th{background:var(--bg4);padding:5px 10px;font-size:12px;font-weight:500;color:var(--text3);text-align:left;width:42%;vertical-align:top}
+.infobox-table td{padding:5px 10px;font-size:12px;color:var(--text);vertical-align:top}
+.infobox-link-icon{display:inline-flex;align-items:center;gap:4px;color:var(--accent);text-decoration:none;font-size:12px}
+.infobox-link-icon::after{content:"↗";font-size:10px}
+.infobox-link-icon:hover{text-decoration:underline}
+
+/* ── WIKI CONTENT ── */
+#wiki-content{font-family:var(--font-serif);font-size:17px;line-height:1.8;color:var(--text)}
+#wiki-content h1{font-size:28px;font-weight:400;color:var(--text);margin:28px 0 12px;border-bottom:1px solid var(--border);padding-bottom:6px}
+#wiki-content h2{font-size:23px;font-weight:400;color:var(--text);margin:24px 0 10px;border-bottom:1px solid var(--border);padding-bottom:5px}
+#wiki-content h3{font-size:19px;font-weight:600;color:var(--text);margin:20px 0 8px}
+#wiki-content h4{font-size:16px;font-weight:600;color:var(--text2);margin:16px 0 6px}
+#wiki-content h5{font-size:14px;font-weight:600;color:var(--text2);margin:14px 0 5px}
+#wiki-content h6{font-size:13px;font-weight:600;color:var(--text3);margin:12px 0 4px;text-transform:uppercase;letter-spacing:.06em}
+#wiki-content p{margin:0 0 14px}
+#wiki-content b,#wiki-content strong{font-weight:700;color:var(--text)}
+#wiki-content u{text-decoration:underline;text-decoration-color:var(--gold)}
+#wiki-content s,#wiki-content strike{text-decoration:line-through;opacity:.7}
+#wiki-content em,#wiki-content i{font-style:italic}
+#wiki-content mark{background:rgba(212,168,67,.25);color:var(--gold);padding:0 2px;border-radius:2px}
+#wiki-content sub{font-size:.75em;vertical-align:sub}
+#wiki-content sup{font-size:.75em;vertical-align:super}
+#wiki-content code{font-family:var(--font-mono);font-size:13px;background:var(--bg4);border:1px solid var(--border);padding:1px 5px;border-radius:3px;color:var(--teal)}
+#wiki-content pre{background:var(--bg4);border:1px solid var(--border);border-radius:6px;padding:14px;overflow-x:auto;margin:12px 0}
+#wiki-content pre code{background:none;border:none;padding:0;font-size:13px}
+#wiki-content blockquote{border-left:3px solid var(--accent2);margin:16px 0;padding:10px 18px;background:rgba(74,158,255,.05);color:var(--text2);font-style:italic;border-radius:0 5px 5px 0}
+#wiki-content ul,#wiki-content ol{margin:10px 0 14px 28px}
+#wiki-content li{margin-bottom:5px}
+#wiki-content a{color:var(--accent);text-decoration:none}
+#wiki-content a:hover{text-decoration:underline}
+#wiki-content table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;font-family:var(--font-sans)}
+#wiki-content table caption{caption-side:bottom;font-size:12px;color:var(--text3);padding:6px;font-style:italic}
+#wiki-content table th{background:var(--surface);padding:8px 12px;text-align:left;font-weight:600;border:1px solid var(--border2);font-size:13px}
+#wiki-content table td{padding:7px 12px;border:1px solid var(--border);vertical-align:top}
+#wiki-content table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+#wiki-content hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+#wiki-content[contenteditable="true"]{outline:none;border:2px dashed var(--accent3);border-radius:6px;padding:14px;min-height:300px}
+#wiki-content video,#wiki-content audio{max-width:100%;border-radius:6px;margin:10px 0}
+#wiki-content .wiki-img{max-width:100%;border-radius:6px;margin:10px 0;display:block}
+#wiki-content .wiki-img-left{float:left;margin:0 16px 10px 0;max-width:260px;border-radius:6px}
+#wiki-content .wiki-img-right{float:right;margin:0 0 10px 16px;max-width:260px;border-radius:6px}
+#wiki-content .wiki-caption{font-size:12px;color:var(--text3);text-align:center;font-style:italic;margin-top:-6px;margin-bottom:14px}
+#wiki-content .wiki-note{background:rgba(74,158,255,.07);border:1px solid var(--accent3);border-radius:5px;padding:10px 14px;margin:12px 0;font-size:14px;font-family:var(--font-sans)}
+#wiki-content .wiki-warning{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.3);border-radius:5px;padding:10px 14px;margin:12px 0;font-size:14px;font-family:var(--font-sans);color:var(--red)}
+#wiki-content .wiki-tip{background:rgba(62,207,142,.07);border:1px solid rgba(62,207,142,.3);border-radius:5px;padding:10px 14px;margin:12px 0;font-size:14px;font-family:var(--font-sans);color:var(--green)}
+
+/* empty/loading states */
+#empty-state{text-align:center;padding:80px 40px;color:var(--text3)}
+#empty-state .eis{font-size:64px;margin-bottom:20px;opacity:.3}
+#empty-state h2{font-family:var(--font-serif);font-size:28px;font-weight:300;color:var(--text2);margin-bottom:10px}
+#empty-state p{font-size:15px;margin-bottom:24px}
+#empty-state .esc-btn{background:var(--accent2);color:#fff;border:none;padding:10px 24px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font-sans);transition:background .15s}
+#empty-state .esc-btn:hover{background:var(--accent)}
+.loading-spinner{text-align:center;padding:60px 40px;color:var(--text3)}
+.loading-spinner .spin{display:inline-block;font-size:32px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── TOOLS PANEL ── */
+#tools-panel{width:var(--tools-w);flex-shrink:0;background:var(--bg2);border-left:1px solid var(--border);position:sticky;top:calc(var(--header-h) + var(--subnav-h));height:calc(100vh - var(--header-h) - var(--subnav-h));overflow-y:auto;display:flex;flex-direction:column}
+#tools-header{padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border2);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-family:var(--font-mono);display:flex;align-items:center;gap:8px}
+#tools-header::before{content:"◈";font-size:14px}
+.tools-section{padding:10px 12px;border-bottom:1px solid var(--border)}
+.tools-section-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:7px;font-family:var(--font-mono)}
+.fmt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.fmt-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:5px 3px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;transition:all .12s;text-align:center;font-family:var(--font-sans);line-height:1.2}
+.fmt-btn:hover{background:var(--surface);color:var(--text);border-color:var(--accent2)}
+.fmt-btn:active{transform:scale(.93)}
+.fmt-btn.w2{grid-column:span 2}
+.fmt-btn.w4{grid-column:span 4}
+.act-btn{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:7px 10px;border-radius:5px;font-size:12px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:7px;margin-bottom:4px;transition:all .12s;font-family:var(--font-sans)}
+.act-btn:hover{background:var(--surface);color:var(--text);border-color:var(--border2)}
+.act-btn .ab-icon{font-size:13px;flex-shrink:0}
+.act-btn.danger{color:var(--red)}
+.act-btn.danger:hover{background:rgba(248,113,113,.08);border-color:var(--red)}
+.act-btn.success{color:var(--green)}
+.act-btn.success:hover{background:rgba(62,207,142,.08);border-color:var(--green)}
+.act-btn.info{color:var(--accent)}
+.act-btn.info:hover{background:rgba(74,158,255,.08);border-color:var(--accent)}
+.color-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.color-row label{font-size:11px;color:var(--text3);width:72px;flex-shrink:0}
+.color-row input[type=color]{width:28px;height:22px;border:1px solid var(--border);border-radius:3px;cursor:pointer;background:none;padding:1px}
+.color-row .apply-color-btn{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:3px 6px;border-radius:3px;font-size:11px;cursor:pointer;font-family:var(--font-sans)}
+.color-row .apply-color-btn:hover{background:var(--surface);color:var(--text)}
+select.form-select{width:100%;background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:4px;font-size:12px;outline:none;font-family:var(--font-sans);cursor:pointer;margin-bottom:5px}
+select.form-select:focus{border-color:var(--accent2)}
+
+/* ── MODALS ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(5px)}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;width:100%;max-width:540px;box-shadow:0 24px 70px rgba(0,0,0,.7);max-height:92vh;overflow-y:auto;animation:mslide .2s ease}
+@keyframes mslide{from{transform:translateY(-16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg3);z-index:1}
+.modal-header h3{font-size:16px;font-weight:600;color:var(--text)}
+.modal-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:20px;line-height:1;padding:2px 7px;border-radius:3px}
+.modal-close:hover{color:var(--text);background:var(--surface)}
+.modal-body{padding:20px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:var(--bg3)}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12px;font-weight:500;color:var(--text2);margin-bottom:5px}
+.form-hint{font-size:11px;color:var(--text3);margin-top:3px}
+.form-input{width:100%;background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:5px;font-size:13px;outline:none;font-family:var(--font-sans);transition:border-color .15s}
+.form-input:focus{border-color:var(--accent2)}
+.form-input::placeholder{color:var(--text3)}
+textarea.form-input{resize:vertical;min-height:70px}
+.form-input-mono{font-family:var(--font-mono);font-size:12px;color:var(--text3)}
+.btn-primary{background:var(--accent2);color:#fff;border:1px solid var(--accent);padding:8px 20px;border-radius:5px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-sans);transition:background .15s}
+.btn-primary:hover{background:var(--accent)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-secondary{background:var(--bg3);color:var(--text2);border:1px solid var(--border);padding:8px 20px;border-radius:5px;font-size:13px;cursor:pointer;font-family:var(--font-sans);transition:all .15s}
+.btn-secondary:hover{background:var(--surface);color:var(--text)}
+.btn-danger{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.3);padding:8px 20px;border-radius:5px;font-size:13px;cursor:pointer;font-family:var(--font-sans)}
+.btn-danger:hover{background:rgba(248,113,113,.2)}
+.form-error{font-size:12px;color:var(--red);margin-top:6px;display:none}
+.form-error.show{display:block}
+.form-link{font-size:12px;color:var(--accent);cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;font-family:var(--font-sans)}
+
+/* Page folder grid */
+.folder-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px}
+.folder-btn{background:var(--bg4);border:2px solid var(--border);color:var(--text2);padding:12px 10px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;text-align:center;transition:all .15s;font-family:var(--font-sans);line-height:1.2}
+.folder-btn:hover{background:var(--surface);border-color:var(--border2);color:var(--text)}
+.folder-btn.selected{background:rgba(74,158,255,.1);border-color:var(--accent);color:var(--accent)}
+.folder-btn .fb-icon{display:block;font-size:22px;margin-bottom:4px}
+.folder-btn .fb-name{font-size:12px;font-family:var(--font-mono);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;font-size:10px;color:var(--text3)}
+
+/* infobox fields */
+.ib-field-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.ib-field-key{flex:0 0 110px;background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:4px;font-size:12px;outline:none;font-family:var(--font-sans)}
+.ib-field-val{flex:1;background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:4px;font-size:12px;outline:none;font-family:var(--font-sans)}
+.ib-field-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:3px 5px;border-radius:3px}
+.ib-field-del:hover{color:var(--red);background:rgba(248,113,113,.08)}
+
+/* public badge */
+.public-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(62,207,142,.1);border:1px solid rgba(62,207,142,.3);color:var(--green);padding:2px 8px;border-radius:10px;font-size:11px;font-family:var(--font-mono)}
+.draft-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.3);color:var(--gold);padding:2px 8px;border-radius:10px;font-size:11px;font-family:var(--font-mono)}
+
+/* upload */
+.upload-zone{border:2px dashed var(--border2);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:10px}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--accent2);background:rgba(74,158,255,.05)}
+.upload-zone p{font-size:13px;color:var(--text3);margin:0}
+.upload-zone .uz-icon{font-size:28px;margin-bottom:8px}
+#upload-preview{max-width:100%;border-radius:6px;margin-top:10px;display:none}
+
+/* toast */
+#toast-wrap{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 16px;border-radius:6px;font-size:13px;box-shadow:0 4px 16px rgba(0,0,0,.4);animation:tslide .3s ease,tfade .3s 2.7s ease forwards;pointer-events:none;max-width:320px}
+.toast.ok{border-left:3px solid var(--green)}
+.toast.err{border-left:3px solid var(--red)}
+.toast.inf{border-left:3px solid var(--accent)}
+@keyframes tslide{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes tfade{to{opacity:0;transform:translateX(8px)}}
+
+/* search results */
+#search-results{position:fixed;z-index:1100;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;width:min(480px,90vw);box-shadow:0 8px 32px rgba(0,0,0,.5);max-height:60vh;overflow-y:auto;top:calc(var(--header-h) + 4px);left:50%;transform:translateX(-50%)}
+.sr-item{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover{background:var(--surface)}
+.sr-item .sri-title{font-size:14px;font-weight:500;color:var(--text)}
+.sr-item .sri-snippet{font-size:12px;color:var(--text3);margin-top:2px;font-family:var(--font-serif)}
+.sr-item .sri-cat{font-size:10px;color:var(--gold);font-family:var(--font-mono);text-transform:uppercase}
+.sr-empty{padding:20px;text-align:center;color:var(--text3);font-size:14px}
+
+/* TOC */
+#toc{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin-bottom:20px;display:inline-block;min-width:200px;max-width:320px}
+#toc .toc-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px}
+#toc a{display:block;font-size:13px;color:var(--accent);margin:3px 0;text-decoration:none}
+#toc a:hover{text-decoration:underline}
+#toc .toc-sub{padding-left:14px;font-size:12px}
+#toc .toc-sub2{padding-left:26px;font-size:11px}
+
+/* edit indicator */
+#edit-indicator{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(74,158,255,.15);border:1px solid var(--accent2);color:var(--accent);padding:6px 20px;border-radius:20px;font-size:12px;font-family:var(--font-mono);z-index:800;display:none;backdrop-filter:blur(8px)}
+
+/* publishing progress */
+#publish-progress{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent2),var(--accent),var(--teal));background-size:200% 100%;animation:progress-wave 1.2s ease infinite;z-index:2000;display:none}
+@keyframes progress-wave{0%{background-position:100% 0}100%{background-position:-100% 0}}
+
+/* font size row */
+.fontsize-row{display:flex;align-items:center;gap:4px;margin-bottom:5px}
+.fontsize-row label{font-size:11px;color:var(--text3);flex-shrink:0;width:62px}
+.fontsize-row select{flex:1;background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:3px 6px;border-radius:3px;font-size:11px;outline:none;font-family:var(--font-sans)}
+
+@media(max-width:900px){#sidebar{display:none}#tools-panel{width:240px}}
+@media(max-width:700px){#tools-panel{display:none}#info-section{padding:16px 14px}}
+</style>
+</head>
+<body>
+
+<div id="publish-progress"></div>
+
+<header id="header">
+  <a id="logo-area" href="#" onclick="showHome();return false">
+    <img src="https://raw.githubusercontent.com/aedtpworldawfl/wiki/main/icons/awflmeta.jpg" alt="AWFLMETA" onerror="this.style.display='none'">
+    <div id="logo-text">
+      <span class="lt1">AWFLMETA</span>
+      <span class="lt2">AEDTP WORLD WIKI</span>
+    </div>
+  </a>
+  <div id="search-wrap">
+    <div id="search-form">
+      <input id="search-input" type="search" placeholder="Search wiki…" autocomplete="off"
+        oninput="searchWiki(this.value)" onfocus="searchWiki(this.value)" onblur="setTimeout(closeSearch,200)">
+      <button id="search-btn" onclick="searchWiki(document.getElementById('search-input').value)">Search</button>
+    </div>
+  </div>
+  <div id="header-actions">
+    <div id="auth-guest-btns">
+      <button class="h-btn" onclick="openModal('modal-signin')">Sign In</button>
+      <button class="h-btn primary" onclick="openModal('modal-create-account')">Create Account</button>
+    </div>
+    <div id="auth-user-btns" style="display:none;align-items:center;gap:8px">
+      <span id="auth-status" style="font-size:11px;font-family:var(--font-mono);color:var(--gold)" id="header-username"></span>
+      <button class="h-btn primary" onclick="openCreateModal()">+ New Wiki</button>
+      <button class="h-btn" onclick="openModal('modal-upload')">↑ Upload</button>
+      <button class="h-btn" onclick="doLogout()">Log Out</button>
+    </div>
+  </div>
+</header>
+
+<div id="search-results" style="display:none"></div>
+
+<nav id="subnav">
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/" target="_blank">HOME</a>
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/apps/" target="_blank">APPS</a>
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/artists/" target="_blank">ARTISTS</a>
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/biography/" target="_blank">BIOGRAPHY</a>
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/business/" target="_blank">BUSINESS</a>
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/dictionary/" target="_blank">DICTIONARY</a>
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/education/" target="_blank">EDUCATION</a>
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/music/" target="_blank">MUSIC</a>
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/news/" target="_blank">NEWS</a>
+  <a class="snav-btn active" href="https://aedtpworldawfl.github.io/wiki/new/" target="_blank">NEW ✎</a>
+  <a class="snav-btn" href="https://aedtpworldawfl.github.io/wiki/help/" target="_blank">HELP</a>
+</nav>
+
+<div id="app">
+  <aside id="sidebar">
+    <div id="sidebar-header">
+      <span>Pages</span>
+      <span id="page-count" style="font-size:11px;color:var(--text3)">0</span>
+    </div>
+    <div id="sidebar-actions">
+      <input id="page-search" type="search" placeholder="Filter pages…" oninput="filterPages(this.value)">
+    </div>
+    <div id="sidebar-cat-filter">
+      <span class="cat-pill active" onclick="setCatFilter('')" data-cat="">All</span>
+      <span class="cat-pill" onclick="setCatFilter('apps')" data-cat="apps">Apps</span>
+      <span class="cat-pill" onclick="setCatFilter('artists')" data-cat="artists">Artists</span>
+      <span class="cat-pill" onclick="setCatFilter('biography')" data-cat="biography">Bio</span>
+      <span class="cat-pill" onclick="setCatFilter('business')" data-cat="business">Biz</span>
+      <span class="cat-pill" onclick="setCatFilter('dictionary')" data-cat="dictionary">Dict</span>
+      <span class="cat-pill" onclick="setCatFilter('education')" data-cat="education">Edu</span>
+      <span class="cat-pill" onclick="setCatFilter('music')" data-cat="music">Music</span>
+      <span class="cat-pill" onclick="setCatFilter('news')" data-cat="news">News</span>
+    </div>
+    <div id="page-list"></div>
+  </aside>
+
+  <main id="main">
+    <section id="info-section">
+      <div id="wiki-title-bar">
+        <div style="flex:1">
+          <div id="wiki-title-display">Welcome to AWFLMETA</div>
+          <div id="wiki-meta-bar">
+            <span class="wiki-meta-tag" id="wiki-date-tag">—</span>
+            <span class="wiki-meta-tag" id="wiki-slug-tag">home</span>
+            <span class="wiki-meta-tag cat" id="wiki-cat-tag" style="display:none">—</span>
+            <span class="public-badge" id="wiki-public-badge" style="display:none">🌐 Public</span>
+            <span class="draft-badge" id="wiki-draft-badge" style="display:none">✎ Draft</span>
+          </div>
+          <div id="wiki-page-link" style="display:none"></div>
+        </div>
+      </div>
+      <div id="infobox-container" style="display:none"></div>
+      <div id="wiki-content">
+        <div id="empty-state">
+          <div class="eis">◈</div>
+          <h2>AEDTP WORLD WIKI</h2>
+          <p>Browse published wiki pages, or sign in to create and edit pages.</p>
+          <button class="esc-btn" onclick="openModal('modal-signin')">Sign In to Edit / Create</button>
+        </div>
+      </div>
+    </section>
+
+    <aside id="tools-panel">
+      <div id="tools-header">AWFLMETA TOOLS</div>
+
+      <div class="tools-section">
+        <div class="tools-section-label">Actions</div>
+        <button class="act-btn info"    id="btn-edit"   onclick="toggleEdit()"        style="display:none"><span class="ab-icon">✎</span> Edit Wiki</button>
+        <button class="act-btn success" id="btn-save"   onclick="saveCurrentPage()"   style="display:none"><span class="ab-icon">💾</span> Save &amp; Publish</button>
+        <button class="act-btn"         id="btn-create" onclick="openCreateModal()"    style="display:none"><span class="ab-icon">+</span> Create New Wiki</button>
+        <button class="act-btn danger"  id="btn-delete" onclick="deleteCurrentPage()" style="display:none"><span class="ab-icon">🗑</span> Delete Page</button>
+      </div>
+
+      <!-- FORMAT SECTION -->
+      <div class="tools-section" id="fmt-section" style="display:none">
+        <div class="tools-section-label">Headings</div>
+        <div class="fmt-grid">
+          <button class="fmt-btn" onclick="fmt('h1')">H1</button>
+          <button class="fmt-btn" onclick="fmt('h2')">H2</button>
+          <button class="fmt-btn" onclick="fmt('h3')">H3</button>
+          <button class="fmt-btn" onclick="fmt('h4')">H4</button>
+          <button class="fmt-btn" onclick="fmt('h5')">H5</button>
+          <button class="fmt-btn" onclick="fmt('h6')">H6</button>
+          <button class="fmt-btn" onclick="fmt('p')">¶ P</button>
+          <button class="fmt-btn" onclick="fmt('pre')">⌨ Pre</button>
+        </div>
+      </div>
+
+      <div class="tools-section" id="fmt-inline-section" style="display:none">
+        <div class="tools-section-label">Inline Format</div>
+        <div class="fmt-grid">
+          <button class="fmt-btn" onclick="execFmt('bold')" title="Bold"><b>B</b></button>
+          <button class="fmt-btn" onclick="execFmt('italic')" title="Italic"><i>I</i></button>
+          <button class="fmt-btn" onclick="execFmt('underline')" title="Underline"><u>U</u></button>
+          <button class="fmt-btn" onclick="execFmt('strikeThrough')" title="Strikethrough"><s>S</s></button>
+          <button class="fmt-btn" onclick="wrapSel('sup')" title="Superscript">x²</button>
+          <button class="fmt-btn" onclick="wrapSel('sub')" title="Subscript">x₂</button>
+          <button class="fmt-btn" onclick="wrapSel('mark')" title="Highlight">🖊</button>
+          <button class="fmt-btn" onclick="wrapSel('code')" title="Code">&lt;/&gt;</button>
+        </div>
+        <div class="fontsize-row" style="margin-top:6px">
+          <label>Font Size</label>
+          <select onchange="setFontSize(this.value)">
+            <option value="">—</option>
+            <option value="1">8px</option>
+            <option value="2">10px</option>
+            <option value="3">12px (default)</option>
+            <option value="4">14px</option>
+            <option value="5">18px</option>
+            <option value="6">24px</option>
+            <option value="7">36px</option>
+          </select>
+        </div>
+        <div class="fontsize-row">
+          <label>Font</label>
+          <select onchange="setFontFamily(this.value)">
+            <option value="">—</option>
+            <option value="'IBM Plex Sans',sans-serif">IBM Plex Sans</option>
+            <option value="'Crimson Pro',Georgia,serif">Crimson Pro</option>
+            <option value="'IBM Plex Mono',monospace">IBM Plex Mono</option>
+            <option value="Georgia,serif">Georgia</option>
+            <option value="Arial,sans-serif">Arial</option>
+            <option value="'Times New Roman',serif">Times New Roman</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="tools-section" id="fmt-block-section" style="display:none">
+        <div class="tools-section-label">Blocks &amp; Lists</div>
+        <div class="fmt-grid">
+          <button class="fmt-btn w2" onclick="execFmt('insertUnorderedList')">• List</button>
+          <button class="fmt-btn w2" onclick="execFmt('insertOrderedList')">1. List</button>
+          <button class="fmt-btn w2" onclick="insertBlock('blockquote')">❝ Quote</button>
+          <button class="fmt-btn w2" onclick="insertHR()">— HR</button>
+          <button class="fmt-btn w4" onclick="insertTable()">⊞ Insert Table</button>
+          <button class="fmt-btn w4" onclick="insertBox('wiki-note','ℹ Note')">ℹ Note Box</button>
+          <button class="fmt-btn w4" onclick="insertBox('wiki-warning','⚠ Warning')">⚠ Warning Box</button>
+          <button class="fmt-btn w4" onclick="insertBox('wiki-tip','✓ Tip')">✓ Tip Box</button>
+        </div>
+      </div>
+
+      <div class="tools-section" id="fmt-align-section" style="display:none">
+        <div class="tools-section-label">Alignment</div>
+        <div class="fmt-grid">
+          <button class="fmt-btn" onclick="execFmt('justifyLeft')" title="Left">⬅</button>
+          <button class="fmt-btn" onclick="execFmt('justifyCenter')" title="Center">⬌</button>
+          <button class="fmt-btn" onclick="execFmt('justifyRight')" title="Right">➡</button>
+          <button class="fmt-btn" onclick="execFmt('justifyFull')" title="Justify">☰</button>
+          <button class="fmt-btn w2" onclick="execFmt('indent')">→ Indent</button>
+          <button class="fmt-btn w2" onclick="execFmt('outdent')">← Outdent</button>
+        </div>
+      </div>
+
+      <div class="tools-section" id="fmt-insert-section" style="display:none">
+        <div class="tools-section-label">Insert Media</div>
+        <div class="fmt-grid">
+          <button class="fmt-btn w2" onclick="promptInsert('link')">🔗 Link</button>
+          <button class="fmt-btn w2" onclick="promptInsert('image')">🖼 Image</button>
+          <button class="fmt-btn w2" onclick="promptInsert('video')">▶ Video</button>
+          <button class="fmt-btn w2" onclick="promptInsert('audio')">♪ Audio</button>
+          <button class="fmt-btn w4" onclick="openInfoboxModal()">☰ Infobox</button>
+          <button class="fmt-btn w4" onclick="buildTOC()">≡ Generate TOC</button>
+        </div>
+      </div>
+
+      <div class="tools-section" id="color-section" style="display:none">
+        <div class="tools-section-label">Color</div>
+        <div class="color-row">
+          <label>Highlight</label>
+          <input type="color" id="hl-color" value="#d4a843">
+          <button class="apply-color-btn" onclick="applyHighlight()">Apply</button>
+        </div>
+        <div class="color-row">
+          <label>Text Color</label>
+          <input type="color" id="tc-color" value="#4a9eff">
+          <button class="apply-color-btn" onclick="applyTextColor()">Apply</button>
+        </div>
+        <div class="color-row">
+          <label>Background</label>
+          <input type="color" id="bg-color" value="#1a2030">
+          <button class="apply-color-btn" onclick="applyBgColor()">Apply</button>
+        </div>
+        <button class="fmt-btn w4" onclick="execFmt('removeFormat')" style="grid-column:span 4;width:100%;margin-top:4px">✕ Clear Format</button>
+      </div>
+
+      <div class="tools-section" id="clip-section" style="display:none">
+        <div class="tools-section-label">Clipboard &amp; History</div>
+        <button class="act-btn" onclick="copyAll()"><span class="ab-icon">📋</span> Copy All</button>
+        <button class="act-btn" onclick="pasteContent()"><span class="ab-icon">📄</span> Paste</button>
+        <button class="act-btn" onclick="execFmt('undo')"><span class="ab-icon">↩</span> Undo</button>
+        <button class="act-btn" onclick="execFmt('redo')"><span class="ab-icon">↪</span> Redo</button>
+      </div>
+
+      <div class="tools-section">
+        <div class="tools-section-label">Utilities</div>
+        <button class="act-btn" onclick="exportHTML()"><span class="ab-icon">↓</span> Export HTML</button>
+        <button class="act-btn" onclick="printPage()"><span class="ab-icon">🖨</span> Print Page</button>
+        <button class="act-btn" onclick="wordCount()"><span class="ab-icon">#</span> Word Count</button>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<div id="edit-indicator">✎ EDIT MODE — Ctrl+S to save</div>
+<div id="toast-wrap"></div>
+
+<!-- ─── MODALS ─── -->
+
+<!-- Create Account -->
+<div class="modal-overlay" id="modal-create-account">
+  <div class="modal-box">
+    <div class="modal-header"><h3>👤 Create Account</h3><button class="modal-close" onclick="closeModal('modal-create-account')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Username <span style="color:var(--red)">*</span></label><input class="form-input" id="ca-username" placeholder="e.g. WikiWriter" autocomplete="username"><div class="form-hint">Letters, numbers, underscores only. No spaces.</div></div>
+      <div class="form-group"><label>Password <span style="color:var(--red)">*</span></label><input class="form-input" id="ca-password" type="password" placeholder="At least 8 characters" autocomplete="new-password"><div class="form-hint">Minimum 8 characters. No spaces.</div></div>
+      <div class="form-error" id="ca-error"></div>
+      <div style="margin-top:10px;font-size:12px;color:var(--text3)">Already have an account? <button class="form-link" onclick="closeModal('modal-create-account');openModal('modal-signin')">Sign In</button></div>
+      <div style="margin-top:6px;font-size:12px;color:var(--text3)">Forgotten password? <button class="form-link" onclick="openForgotPassword()">Reset via Email</button></div>
+    </div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('modal-create-account')">Cancel</button><button class="btn-primary" id="ca-btn" onclick="doCreateAccount()">Create Account</button></div>
+  </div>
+</div>
+
+<!-- Sign In -->
+<div class="modal-overlay" id="modal-signin">
+  <div class="modal-box">
+    <div class="modal-header"><h3>🔐 Sign In</h3><button class="modal-close" onclick="closeModal('modal-signin')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Username <span style="color:var(--red)">*</span></label><input class="form-input" id="si-username" placeholder="Your username" autocomplete="username"></div>
+      <div class="form-group"><label>Password <span style="color:var(--red)">*</span></label><input class="form-input" id="si-password" type="password" placeholder="Your password" autocomplete="current-password"></div>
+      <div class="form-error" id="si-error"></div>
+      <div style="margin-top:10px;font-size:12px;color:var(--text3)">No account? <button class="form-link" onclick="closeModal('modal-signin');openModal('modal-create-account')">Create one</button></div>
+      <div style="margin-top:6px;font-size:12px;color:var(--text3)">Forgotten password? <button class="form-link" onclick="openForgotPassword()">Reset via Email</button></div>
+    </div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('modal-signin')">Cancel</button><button class="btn-primary" id="si-btn" onclick="doSignIn()">Sign In</button></div>
+  </div>
+</div>
+
+<!-- Upload -->
+<div class="modal-overlay" id="modal-upload">
+  <div class="modal-box">
+    <div class="modal-header"><h3>↑ Upload Image</h3><button class="modal-close" onclick="closeModal('modal-upload')">×</button></div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:var(--text3);margin-bottom:12px">Only JPEG and PNG files accepted.</p>
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('upload-file-input').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
+        <div class="uz-icon">🖼</div><p>Click to select or drag &amp; drop</p><p style="font-size:11px;margin-top:4px;color:var(--text3)">JPEG / PNG only</p>
+      </div>
+      <input type="file" id="upload-file-input" accept=".jpg,.jpeg,.png" style="display:none" onchange="handleFileSelect(this.files[0])">
+      <div id="upload-filename" style="font-size:12px;color:var(--text2);margin-top:4px;display:none"></div>
+      <img id="upload-preview" alt="Preview">
+      <div id="upload-result-url" style="font-size:12px;font-family:var(--font-mono);word-break:break-all;margin-top:8px;display:none"></div>
+      <div class="form-error" id="upload-error"></div>
+    </div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('modal-upload')">Close</button><button class="btn-primary" id="upload-btn" onclick="doUpload()" disabled>Upload</button></div>
+  </div>
+</div>
+
+<!-- Create Wiki -->
+<div class="modal-overlay" id="modal-create">
+  <div class="modal-box" style="max-width:600px">
+    <div class="modal-header"><h3>📄 Create New Wiki Page</h3><button class="modal-close" onclick="closeModal('modal-create')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Wiki Title <span style="color:var(--red)">*</span></label>
+        <input class="form-input" id="new-page-title" placeholder="e.g. PROJECT BOOT DEV" oninput="updateSlugPreview()">
+      </div>
+      <div class="form-group">
+        <label>Choose Page Folder <span style="color:var(--red)">*</span></label>
+        <div class="folder-grid" id="folder-grid">
+          <button class="folder-btn" data-folder="apps" onclick="selectFolder('apps',this)">
+            <span class="fb-icon">📱</span>Apps<span class="fb-name">wiki/apps/</span>
+          </button>
+          <button class="folder-btn" data-folder="artists" onclick="selectFolder('artists',this)">
+            <span class="fb-icon">🎨</span>Artists<span class="fb-name">wiki/artists/</span>
+          </button>
+          <button class="folder-btn" data-folder="biography" onclick="selectFolder('biography',this)">
+            <span class="fb-icon">📖</span>Biography<span class="fb-name">wiki/biography/</span>
+          </button>
+          <button class="folder-btn" data-folder="business" onclick="selectFolder('business',this)">
+            <span class="fb-icon">💼</span>Business<span class="fb-name">wiki/business/</span>
+          </button>
+          <button class="folder-btn" data-folder="dictionary" onclick="selectFolder('dictionary',this)">
+            <span class="fb-icon">📚</span>Dictionary<span class="fb-name">wiki/dictionary/</span>
+          </button>
+          <button class="folder-btn" data-folder="education" onclick="selectFolder('education',this)">
+            <span class="fb-icon">🎓</span>Education<span class="fb-name">wiki/education/</span>
+          </button>
+          <button class="folder-btn" data-folder="music" onclick="selectFolder('music',this)">
+            <span class="fb-icon">🎵</span>Music<span class="fb-name">wiki/music/</span>
+          </button>
+          <button class="folder-btn" data-folder="news" onclick="selectFolder('news',this)">
+            <span class="fb-icon">📰</span>News<span class="fb-name">wiki/news/</span>
+          </button>
+        </div>
+        <div class="form-hint" id="folder-error" style="color:var(--red);display:none">Please select a folder.</div>
+      </div>
+      <div class="form-group">
+        <label>File Name Preview</label>
+        <input class="form-input form-input-mono" id="new-page-filename" placeholder="Will be auto-generated" readonly>
+        <div class="form-hint" id="slug-preview-url" style="font-size:11px;color:var(--accent);margin-top:4px;font-family:var(--font-mono);word-break:break-all"></div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('modal-create')">Cancel</button><button class="btn-primary" onclick="createPage()">Create &amp; Edit</button></div>
+  </div>
+</div>
+
+<!-- Insert Media -->
+<div class="modal-overlay" id="modal-insert">
+  <div class="modal-box">
+    <div class="modal-header"><h3 id="insert-modal-title">Insert</h3><button class="modal-close" onclick="closeModal('modal-insert')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>URL</label><input class="form-input" id="insert-url" placeholder="https://..."></div>
+      <div class="form-group" id="insert-text-group" style="display:none"><label>Display Text</label><input class="form-input" id="insert-text" placeholder="Click here"></div>
+      <div class="form-group" id="insert-alt-group" style="display:none"><label>Alt / Caption (optional)</label><input class="form-input" id="insert-alt" placeholder="Image description"></div>
+      <div class="form-group" id="insert-align-group" style="display:none">
+        <label>Image Alignment</label>
+        <select class="form-input" id="insert-align">
+          <option value="block">Full width (block)</option>
+          <option value="left">Float left</option>
+          <option value="right">Float right</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('modal-insert')">Cancel</button><button class="btn-primary" onclick="doInsert()">Insert</button></div>
+  </div>
+</div>
+
+<!-- Infobox -->
+<div class="modal-overlay" id="modal-infobox">
+  <div class="modal-box" style="max-width:620px">
+    <div class="modal-header"><h3>☰ AWFLMETA Infobox</h3><button class="modal-close" onclick="closeModal('modal-infobox')">×</button></div>
+    <div class="modal-body">
+      <div id="ib-step1">
+        <div class="form-group"><label>Choose Template</label><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px" id="ib-template-grid"></div></div>
+      </div>
+      <div id="ib-step2" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div><span style="font-size:11px;color:var(--text3)">Template: </span><span id="ib-tpl-name" style="font-size:13px;color:var(--gold);font-weight:600"></span></div>
+          <button class="btn-secondary" style="padding:4px 10px;font-size:12px" onclick="ibGoBack()">← Change</button>
+        </div>
+        <div id="ib-fields-list"></div>
+        <button class="act-btn" style="margin-top:8px" onclick="ibAddField()"><span class="ab-icon">+</span> Add Custom Field</button>
+      </div>
+    </div>
+    <div class="modal-footer" id="ib-footer" style="display:none">
+      <button class="btn-secondary" onclick="closeModal('modal-infobox')">Cancel</button>
+      <button class="btn-primary" onclick="saveInfobox()">Insert Infobox</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   AWFLMETA WIKI — Complete JS
+═══════════════════════════════════════════════ */
+
+/* ─── CONFIG ─── */
+const API_BASE     = 'https://awflmeta-api.onrender.com';
+const GH_WIKI_BASE = 'https://aedtpworldawfl.github.io/wiki/';
+const GH_RAW_BASE  = 'https://raw.githubusercontent.com/aedtpworldawfl/wiki/main/';
+const ACCOUNTS_URL = GH_RAW_BASE + 'accounts/accounts.json';
+
+const PAGE_FOLDERS = ['apps','artists','biography','business','dictionary','education','music','news'];
+
+/* ─── STATE ─── */
+const DB_KEY   = 'awflmeta_pages';
+const IB_KEY   = 'awflmeta_infoboxes';
+const AUTH_KEY = 'awflmeta_auth';
+const PUB_CACHE= 'awflmeta_pub_cache';
+
+let publicPages   = {};  // slug -> {slug,title,folder,updated,content}
+let localPages    = {};
+let infoboxes     = {};
+let currentSlug   = null;
+let currentPageId = null;
+let isEditMode    = false;
+let insertType    = null;
+let savedSel      = null;
+let ibTemplate    = null;
+let currentUser   = null;
+let uploadFile    = null;
+let selectedFolder= null;
+let catFilter     = '';
+
+const IB_TEMPLATES = {
+  Artist:   ['Image','Name','Description','Date of Birth','Origin','Genre','Official Website','Nationality','Occupation','Years Active','Labels','Associated Acts'],
+  Business: ['Image','Name','Description','Founded','Founders','Headquarters','Industry','Products','Revenue','Website','CEO'],
+  Software: ['Image','Name','Description','Developer','Initial Release','Latest Release','Platform','License','Website','Written In'],
+  Person:   ['Image','Name','Description','Date of Birth','Nationality','Occupation','Known For','Official Website'],
+  Company:  ['Image','Name','Description','Type','Founded','Headquarters','CEO','Employees','Revenue','Website'],
+  Group:    ['Image','Name','Description','Formed','Origin','Members','Genre','Website'],
+  Music:    ['Image','Title','Description','Artist','Album','Released','Genre','Label','Length'],
+  Film:     ['Image','Title','Description','Director','Producer','Released','Genre','Starring','Language'],
+  Place:    ['Image','Name','Description','Country','Region','Population','Area','Official Website'],
+  Custom:   [],
+};
+
+/* ─── LOCAL ACCOUNTS (accounts/accounts.json mirrored in localStorage) ─── */
+/* Since GitHub Pages is static, accounts are stored in localStorage.
+   We attempt to load from accounts.json as initial seed, then keep local. */
+const ACCT_KEY = 'awflmeta_accounts';
+function loadAccounts(){ try{ return JSON.parse(localStorage.getItem(ACCT_KEY)||'[]'); }catch{ return []; } }
+function saveAccounts(arr){ try{ localStorage.setItem(ACCT_KEY,JSON.stringify(arr)); }catch{} }
+
+async function fetchAccountsSeed(){
+  // Try to fetch accounts from GitHub as initial seed (may 404 if not created yet)
+  try{
+    const r = await fetch(ACCOUNTS_URL+'?_='+Date.now());
+    if(r.ok){
+      const data = await r.json(); // [{username,passwordHash,...}]
+      const existing = loadAccounts();
+      // Merge: add any account from GitHub not already local
+      data.forEach(ghAcc=>{
+        if(!existing.find(a=>a.username.toLowerCase()===ghAcc.username.toLowerCase()))
+          existing.push(ghAcc);
+      });
+      saveAccounts(existing);
+    }
+  }catch{}
+}
+
+function hashPassword(pwd){
+  // Simple hash for client-side (not cryptographic, but enough for static-site auth)
+  let hash = 0;
+  for(let i=0;i<pwd.length;i++){ const c=pwd.charCodeAt(i); hash=((hash<<5)-hash)+c; hash|=0; }
+  return 'h_'+Math.abs(hash).toString(36)+'_'+pwd.length;
+}
+
+function localCreateAccount(username, password){
+  const accounts = loadAccounts();
+  const uLow = username.toLowerCase();
+  if(accounts.find(a=>a.username.toLowerCase()===uLow)) throw new Error('Username already taken.');
+  const acc = { username, passwordHash: hashPassword(password), created: Date.now() };
+  accounts.push(acc);
+  saveAccounts(accounts);
+  return acc;
+}
+
+function localSignIn(username, password){
+  const accounts = loadAccounts();
+  const uLow = username.toLowerCase();
+  const acc = accounts.find(a=>a.username.toLowerCase()===uLow);
+  if(!acc) throw new Error('Account not found.');
+  if(acc.passwordHash !== hashPassword(password)) throw new Error('Incorrect password.');
+  return acc;
+}
+
+/* ─── API helper (used for publish if backend available) ─── */
+async function apiCall(method, path, body, auth=true){
+  const hdrs = {'Content-Type':'application/json'};
+  if(auth && currentUser) hdrs['Authorization'] = 'Bearer '+(currentUser.token||'');
+  const res  = await fetch(API_BASE+path,{method,headers:hdrs,body:body?JSON.stringify(body):undefined});
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error||'API error');
+  return data;
+}
+
+/* ─── AUTH ─── */
+function saveAuth(user){
+  currentUser = user;
+  if(user) localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+  else     localStorage.removeItem(AUTH_KEY);
+  updateAuthUI();
+}
+function loadAuth(){
+  try{ currentUser = JSON.parse(localStorage.getItem(AUTH_KEY)||'null'); }catch{ currentUser=null; }
+  updateAuthUI();
+}
+function updateAuthUI(){
+  const guestDiv = document.getElementById('auth-guest-btns');
+  const userDiv  = document.getElementById('auth-user-btns');
+  const authStatus = document.getElementById('auth-status');
+  const btnCreate = document.getElementById('btn-create');
+  if(currentUser){
+    guestDiv.style.display='none'; userDiv.style.display='flex';
+    if(authStatus) authStatus.textContent = '👤 '+currentUser.username;
+    if(btnCreate)  btnCreate.style.display='flex';
+  } else {
+    guestDiv.style.display='flex'; userDiv.style.display='none';
+    if(authStatus) authStatus.textContent='';
+    if(btnCreate)  btnCreate.style.display='none';
+    ['btn-edit','btn-save','btn-delete','fmt-section','fmt-inline-section',
+     'fmt-block-section','fmt-align-section','fmt-insert-section',
+     'color-section','clip-section'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.style.display='none';
+    });
+    if(isEditMode) exitEdit();
+  }
+}
+
+/* ─── ACCOUNT CREATION ─── */
+async function doCreateAccount(){
+  const username = document.getElementById('ca-username').value.trim();
+  const password = document.getElementById('ca-password').value;
+  const errEl    = document.getElementById('ca-error');
+  const btn      = document.getElementById('ca-btn');
+  errEl.classList.remove('show');
+  if(!username){ showFormErr(errEl,'Username is required.'); return; }
+  if(/\s/.test(username)){ showFormErr(errEl,'No spaces in username.'); return; }
+  if(!/^[\w\-]+$/.test(username)){ showFormErr(errEl,'Username: letters, numbers, _ or - only.'); return; }
+  if(!password||/\s/.test(password)){ showFormErr(errEl,'Password cannot contain spaces.'); return; }
+  if(password.length<8){ showFormErr(errEl,'Password must be at least 8 characters.'); return; }
+  btn.disabled=true; btn.textContent='Creating…';
+  try{
+    const acc = localCreateAccount(username, password);
+    saveAuth({username: acc.username, token: 'local_'+Date.now()});
+    closeModal('modal-create-account');
+    document.getElementById('ca-username').value='';
+    document.getElementById('ca-password').value='';
+    loadLocalData(); renderPageList();
+    toast('Account created! Welcome, '+acc.username+' ✓','ok');
+  } catch(e){ showFormErr(errEl, e.message); }
+  finally{ btn.disabled=false; btn.textContent='Create Account'; }
+}
+
+async function doSignIn(){
+  const username = document.getElementById('si-username').value.trim();
+  const password = document.getElementById('si-password').value;
+  const errEl    = document.getElementById('si-error');
+  const btn      = document.getElementById('si-btn');
+  errEl.classList.remove('show');
+  if(!username){ showFormErr(errEl,'Username is required.'); return; }
+  if(!password){ showFormErr(errEl,'Password is required.'); return; }
+  btn.disabled=true; btn.textContent='Signing in…';
+  try{
+    const acc = localSignIn(username, password);
+    saveAuth({username: acc.username, token: 'local_'+Date.now()});
+    closeModal('modal-signin');
+    document.getElementById('si-username').value='';
+    document.getElementById('si-password').value='';
+    loadLocalData(); renderPageList();
+    toast('Welcome back, '+acc.username+'!','ok');
+  } catch(e){ showFormErr(errEl, e.message); }
+  finally{ btn.disabled=false; btn.textContent='Sign In'; }
+}
+
+function doLogout(){
+  if(!confirm('Sign out?')) return;
+  saveAuth(null);
+  localPages={}; infoboxes={};
+  showHome(); renderPageList();
+  toast('Signed out.','inf');
+}
+function openForgotPassword(){
+  window.location.href='mailto:aedtpworld@gmail.com?subject=Password%20Request&body=I%20need%20help%20with%20my%20AWFLMETA%20password.';
+}
+
+/* ─── UPLOAD ─── */
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('drag');
+  const f=e.dataTransfer.files[0]; if(f) handleFileSelect(f);
+}
+function handleFileSelect(file){
+  if(!file) return;
+  const errEl=document.getElementById('upload-error'); errEl.classList.remove('show');
+  if(!/^image\/(jpeg|png)$/.test(file.type)){ showFormErr(errEl,'Only JPEG and PNG allowed.'); return; }
+  uploadFile=file;
+  document.getElementById('upload-filename').textContent='📎 '+file.name;
+  document.getElementById('upload-filename').style.display='block';
+  document.getElementById('upload-result-url').style.display='none';
+  const reader=new FileReader();
+  reader.onload=e=>{ const img=document.getElementById('upload-preview'); img.src=e.target.result; img.style.display='block'; };
+  reader.readAsDataURL(file);
+  document.getElementById('upload-btn').disabled=false;
+}
+async function doUpload(){
+  if(!uploadFile){ toast('Select a file first','err'); return; }
+  if(!currentUser){ toast('Sign in to upload','err'); return; }
+  const btn=document.getElementById('upload-btn');
+  btn.disabled=true; btn.textContent='Uploading…';
+  try{
+    const fd=new FormData(); fd.append('image',uploadFile);
+    const res=await fetch(API_BASE+'/api/upload/image',{method:'POST',
+      headers:{'Authorization':'Bearer '+(currentUser.token||'')},body:fd});
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error||'Upload failed');
+    const urlEl=document.getElementById('upload-result-url');
+    urlEl.innerHTML='✓ URL: <a href="'+esc(data.url)+'" target="_blank" style="color:var(--accent)">'+esc(data.url)+'</a>';
+    urlEl.style.display='block';
+    toast('Image uploaded ✓','ok');
+    uploadFile=null; btn.disabled=true;
+  } catch(e){
+    toast('Upload failed: '+e.message+' (paste image URL manually)','err');
+    btn.disabled=false;
+  }
+  btn.textContent='Upload';
+}
+
+/* ─── LOCAL DATA ─── */
+function loadLocalData(){
+  try{ localPages=JSON.parse(localStorage.getItem(DB_KEY)||'{}'); }catch{ localPages={}; }
+  try{ infoboxes=JSON.parse(localStorage.getItem(IB_KEY)||'{}'); }catch{ infoboxes={}; }
+}
+function saveLocalData(){
+  try{ localStorage.setItem(DB_KEY,JSON.stringify(localPages)); }catch{ toast('Storage full!','err'); }
+  try{ localStorage.setItem(IB_KEY,JSON.stringify(infoboxes)); }catch{}
+}
+
+/* ─── PUBLIC PAGES (load from GitHub per-folder index.json) ─── */
+async function loadPublicPages(){
+  document.getElementById('page-list').innerHTML=
+    '<div class="loading-spinner"><span class="spin">⟳</span><br><span style="font-size:12px;margin-top:8px;display:block">Loading pages…</span></div>';
+
+  // Try to load cached data first for fast render
+  try{
+    const cached = JSON.parse(localStorage.getItem(PUB_CACHE)||'{}');
+    if(Object.keys(cached).length){ publicPages=cached; renderPageList(); }
+  }catch{}
+
+  // Fetch each folder's index.json from GitHub
+  publicPages = {};
+  const fetches = PAGE_FOLDERS.map(async folder=>{
+    try{
+      const url = GH_RAW_BASE + folder + '/index.json?_='+Date.now();
+      const r   = await fetch(url);
+      if(!r.ok) return;
+      const arr = await r.json(); // [{slug,title,updated,filename}]
+      arr.forEach(p=>{
+        const key = folder+'/'+p.slug;
+        publicPages[key] = {key, slug:p.slug, title:p.title, folder, updated:p.updated||0, content:null, filename:p.filename||p.slug+'.html'};
+      });
+    }catch{}
+  });
+  await Promise.allSettled(fetches);
+
+  try{ localStorage.setItem(PUB_CACHE,JSON.stringify(publicPages)); }catch{}
+  renderPageList();
+  routeFromHash();
+}
+
+/* ─── FETCH A SINGLE PAGE FROM GITHUB ─── */
+async function fetchPageContent(key){
+  if(publicPages[key]?.content) return publicPages[key].content;
+  const p = publicPages[key];
+  if(!p) return null;
+  const url = GH_WIKI_BASE + p.folder + '/' + (p.filename||p.slug+'.html');
+  try{
+    const r = await fetch(url+'?_='+Date.now());
+    if(!r.ok) throw new Error('not found');
+    let html = await r.text();
+    const bodyM = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    if(bodyM) html=bodyM[1].trim();
+    // Remove leading h1 (title shown in title bar)
+    html = html.replace(/^<h1[^>]*>[^<]*<\/h1>\s*/i,'');
+    if(publicPages[key]) publicPages[key].content=html;
+    try{ localStorage.setItem(PUB_CACHE,JSON.stringify(publicPages)); }catch{}
+    return html;
+  }catch{ return null; }
+}
+
+/* ─── CATEGORY FILTER ─── */
+function setCatFilter(cat){
+  catFilter=cat;
+  document.querySelectorAll('.cat-pill').forEach(el=>{
+    el.classList.toggle('active', el.dataset.cat===cat);
+  });
+  renderPageList(document.getElementById('page-search').value);
+}
+
+/* ─── PAGE LIST ─── */
+function renderPageList(filter=''){
+  const list=document.getElementById('page-list');
+  let items=[];
+
+  // Public pages
+  Object.values(publicPages).forEach(p=>{
+    if(catFilter && p.folder!==catFilter) return;
+    if(filter && !p.title.toLowerCase().includes(filter.toLowerCase())) return;
+    items.push({key:p.key, slug:p.slug, title:p.title, folder:p.folder, updated:p.updated, isPublic:true, isDraft:false});
+  });
+
+  // Local drafts (only visible when signed in)
+  if(currentUser){
+    Object.entries(localPages).forEach(([id,p])=>{
+      if(!p.published){
+        if(catFilter && p.folder!==catFilter) return;
+        if(filter && !p.title.toLowerCase().includes(filter.toLowerCase())) return;
+        items.push({key:'__local__'+id, id, slug:p.slug, title:p.title, folder:p.folder, updated:p.updated, isPublic:false, isDraft:true});
+      }
+    });
+  }
+
+  items.sort((a,b)=>b.updated-a.updated);
+  document.getElementById('page-count').textContent=items.length;
+
+  if(!items.length){
+    list.innerHTML='<div style="padding:20px;text-align:center;color:var(--text3);font-size:13px">'+(currentUser?'No pages yet.':'No published pages yet.')+'</div>';
+    return;
+  }
+
+  list.innerHTML=items.map(it=>{
+    const d=new Date(it.updated).toLocaleDateString();
+    const isActive = it.isDraft ? (currentPageId===it.id) : (currentSlug===it.key);
+    const clickFn  = it.isDraft ? `loadLocalDraft('${it.id}')` : `loadPage('${it.key}')`;
+    const icon     = it.isDraft ? '✏️' : '🌐';
+    return `<div class="page-item${isActive?' active':''}" onclick="${clickFn}" title="${esc(it.title)}">
+      <div class="page-item-title">${esc(it.title)}</div>
+      <div class="page-item-meta">
+        <span class="page-cat-badge">${esc(it.folder||'—')}</span>
+        <span style="font-size:10px">${icon} ${d}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+function filterPages(v){ renderPageList(v); }
+
+/* ─── DISPLAY PUBLIC PAGE ─── */
+async function loadPage(key){
+  if(isEditMode && currentPageId){
+    if(!confirm('Discard unsaved changes?')) return;
+    exitEdit();
+  }
+  currentSlug   = key;
+  currentPageId = null;
+  renderPageList(document.getElementById('page-search').value);
+
+  const meta = publicPages[key] || {title:key, updated:Date.now(), folder:'—'};
+  document.getElementById('wiki-title-display').textContent = meta.title||key;
+  document.getElementById('wiki-date-tag').textContent      = meta.updated ? new Date(meta.updated).toLocaleString() : '—';
+  document.getElementById('wiki-slug-tag').textContent      = meta.slug||key;
+  document.getElementById('wiki-cat-tag').textContent       = '📁 '+meta.folder;
+  document.getElementById('wiki-cat-tag').style.display     = 'inline-flex';
+  document.getElementById('wiki-public-badge').style.display= 'inline-flex';
+  document.getElementById('wiki-draft-badge').style.display = 'none';
+
+  const pageUrl = GH_WIKI_BASE + meta.folder + '/' + (meta.filename||meta.slug+'.html');
+  const linkEl  = document.getElementById('wiki-page-link');
+  linkEl.innerHTML = '🔗 <a href="'+esc(pageUrl)+'" target="_blank" rel="noopener">'+esc(pageUrl)+'</a>';
+  linkEl.style.display = 'block';
+
+  document.getElementById('wiki-content').innerHTML=
+    '<div class="loading-spinner"><span class="spin">⟳</span></div>';
+  document.getElementById('infobox-container').style.display='none';
+
+  ['btn-save','fmt-section','fmt-inline-section','fmt-block-section',
+   'fmt-align-section','fmt-insert-section','color-section','clip-section'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display='none';
+  });
+  if(currentUser){
+    document.getElementById('btn-edit').style.display='flex';
+    document.getElementById('btn-delete').style.display='flex';
+  } else {
+    document.getElementById('btn-edit').style.display='none';
+    document.getElementById('btn-delete').style.display='none';
+  }
+
+  const content = await fetchPageContent(key);
+  if(content===null){
+    document.getElementById('wiki-content').innerHTML=
+      '<div style="text-align:center;padding:60px 20px;color:var(--text3)">'
+      +'<div style="font-size:36px;margin-bottom:12px">🔍</div>'
+      +'<p>Could not load page. It may not exist yet or GitHub Pages is still updating.</p>'
+      +'<p style="margin-top:10px"><a href="'+esc(pageUrl)+'" target="_blank" style="color:var(--accent)">Try opening directly ↗</a></p>'
+      +'</div>';
+  } else {
+    document.getElementById('wiki-content').innerHTML = content||'<p style="color:var(--text3);font-style:italic">This page is empty.</p>';
+  }
+
+  renderInfobox(key);
+  window.location.hash = '#'+key;
+}
+
+/* ─── LOCAL DRAFT ─── */
+function loadLocalDraft(id){
+  if(!currentUser){ toast('Sign in to edit drafts','err'); return; }
+  if(isEditMode && currentPageId && currentPageId!==id){
+    if(!confirm('Discard unsaved changes?')) return;
+    exitEdit();
+  }
+  const p=localPages[id]; if(!p) return;
+  currentPageId=id; currentSlug='__draft__'+id;
+  renderPageList(document.getElementById('page-search').value);
+  document.getElementById('wiki-title-display').textContent=p.title;
+  document.getElementById('wiki-date-tag').textContent=new Date(p.updated).toLocaleString();
+  document.getElementById('wiki-slug-tag').textContent=p.slug;
+  document.getElementById('wiki-cat-tag').textContent='📁 '+(p.folder||'—');
+  document.getElementById('wiki-cat-tag').style.display='inline-flex';
+  document.getElementById('wiki-public-badge').style.display='none';
+  document.getElementById('wiki-draft-badge').style.display='inline-flex';
+  document.getElementById('wiki-page-link').style.display='none';
+  document.getElementById('wiki-content').innerHTML=p.content||'<p style="color:var(--text3);font-style:italic">Empty draft. Click Edit to start writing.</p>';
+  document.getElementById('infobox-container').style.display='none';
+  renderInfobox(id);
+  document.getElementById('btn-edit').style.display='flex';
+  document.getElementById('btn-delete').style.display='flex';
+  document.getElementById('btn-save').style.display='none';
+}
+
+function showHome(){
+  if(isEditMode) exitEdit();
+  currentSlug=null; currentPageId=null;
+  renderPageList(document.getElementById('page-search').value);
+  document.getElementById('wiki-title-display').textContent='Welcome to AWFLMETA';
+  document.getElementById('wiki-date-tag').textContent='—';
+  document.getElementById('wiki-slug-tag').textContent='home';
+  document.getElementById('wiki-cat-tag').style.display='none';
+  document.getElementById('wiki-public-badge').style.display='none';
+  document.getElementById('wiki-draft-badge').style.display='none';
+  document.getElementById('wiki-page-link').style.display='none';
+  document.getElementById('wiki-content').innerHTML=
+    '<div id="empty-state"><div class="eis">◈</div><h2>AEDTP WORLD WIKI</h2>'
+    +'<p>Browse published wiki pages, or sign in to create and edit pages.</p>'
+    +(currentUser
+      ?'<button class="esc-btn" onclick="openCreateModal()">+ Create Wiki Page</button>'
+      :'<button class="esc-btn" onclick="openModal(\'modal-signin\')">Sign In to Edit / Create</button>')
+    +'</div>';
+  document.getElementById('infobox-container').style.display='none';
+  ['btn-edit','btn-save','btn-delete'].forEach(b=>{ const el=document.getElementById(b); if(el) el.style.display='none'; });
+  window.location.hash='';
+}
+
+/* ─── INFOBOX RENDER ─── */
+function renderInfobox(pageId){
+  const ib=infoboxes[pageId];
+  const c=document.getElementById('infobox-container');
+  if(!ib||!ib.fields||!ib.fields.length){ c.style.display='none'; return; }
+  const imgF =ib.fields.find(f=>f.key.toLowerCase()==='image');
+  const nameF=ib.fields.find(f=>f.key.toLowerCase()==='name');
+  const rows =ib.fields.filter(f=>f.key.toLowerCase()!=='image'&&f.key&&f.value);
+  let html=`<div class="infobox-title-bar">${esc(ib.template)}</div>`;
+  if(imgF?.value){ html+=`<div class="infobox-img-wrap"><img src="${esc(imgF.value)}" alt="Infobox" loading="lazy"></div>`; if(nameF?.value) html+=`<div class="infobox-caption">${esc(nameF.value)}</div>`; }
+  if(rows.length){
+    html+=`<table class="infobox-table">`;
+    rows.forEach(f=>{
+      if(!f.key||!f.value) return;
+      const kl=f.key.toLowerCase();
+      let cell='';
+      if(kl.includes('video'))      cell=`<video src="${esc(f.value)}" controls style="width:100%;max-height:120px"></video>`;
+      else if(kl.includes('audio')) cell=`<audio src="${esc(f.value)}" controls style="width:100%"></audio>`;
+      else if(isImageUrl(f.value))  cell=`<img src="${esc(f.value)}" style="max-width:100%;max-height:80px;border-radius:3px" loading="lazy">`;
+      else if(isUrl(f.value))       cell=`<a class="infobox-link-icon" href="${esc(f.value)}" target="_blank" rel="noopener">${esc(f.value.replace(/^https?:\/\//,'').substring(0,30))}</a>`;
+      else                          cell=esc(f.value);
+      html+=`<tr><th>${esc(f.key)}</th><td>${cell}</td></tr>`;
+    });
+    html+=`</table>`;
+  }
+  c.innerHTML=html; c.style.display='block';
+}
+function isUrl(v){ return /^https?:\/\//.test(v); }
+function isImageUrl(v){ return /\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(v); }
+
+/* ─── EDIT MODE ─── */
+function toggleEdit(){
+  if(!currentUser){ toast('Sign in to edit','err'); return; }
+  if(!currentSlug || currentSlug.startsWith('__draft__')===false && !publicPages[currentSlug] && !currentPageId){
+    toast('Open a page first','inf'); return;
+  }
+  if(!currentPageId && currentSlug && publicPages[currentSlug]){
+    // Create local draft from public page
+    const meta    = publicPages[currentSlug];
+    const content = document.getElementById('wiki-content').innerHTML;
+    const id      = 'p_'+Date.now();
+    localPages[id] = {id, title:meta.title||currentSlug, slug:meta.slug||currentSlug, folder:meta.folder||'apps',
+                      content, created:Date.now(), updated:Date.now(), published:true};
+    saveLocalData();
+    currentPageId = id;
+  }
+  if(!isEditMode) enterEdit(); else exitEdit();
+}
+
+function enterEdit(){
+  isEditMode=true;
+  const wc=document.getElementById('wiki-content');
+  wc.contentEditable='true'; wc.focus();
+  document.getElementById('btn-edit').style.display='none';
+  document.getElementById('btn-save').style.display='flex';
+  ['fmt-section','fmt-inline-section','fmt-block-section','fmt-align-section',
+   'fmt-insert-section','color-section','clip-section'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display='block';
+  });
+  document.getElementById('edit-indicator').style.display='block';
+}
+function exitEdit(){
+  isEditMode=false;
+  const wc=document.getElementById('wiki-content');
+  wc.contentEditable='false';
+  if(currentUser){
+    document.getElementById('btn-edit').style.display='flex';
+    document.getElementById('btn-delete').style.display='flex';
+  }
+  document.getElementById('btn-save').style.display='none';
+  ['fmt-section','fmt-inline-section','fmt-block-section','fmt-align-section',
+   'fmt-insert-section','color-section','clip-section'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display='none';
+  });
+  document.getElementById('edit-indicator').style.display='none';
+}
+
+/* ─── SAVE & PUBLISH ─── */
+/* 
+  Publishing flow:
+  1. Save content locally.
+  2. Try the backend API (awflmeta-api.onrender.com) which commits to GitHub.
+  3. On success, GitHub Actions / GitHub Pages serves the HTML.
+  4. The published file goes to: wiki/<folder>/<Title>.html
+  5. The backend should also update wiki/<folder>/index.json.
+  6. The backend should also update/create wiki/<folder>/index.html.
+  If the backend is unavailable, we save locally and show the expected URL.
+*/
+async function saveCurrentPage(){
+  if(!currentPageId){ toast('No page to save','err'); return; }
+  if(!currentUser){ toast('Sign in to save','err'); return; }
+  const wc=document.getElementById('wiki-content');
+  const p =localPages[currentPageId];
+  if(!p){ toast('Page not found','err'); return; }
+
+  // Update local
+  p.content = wc.innerHTML;
+  p.updated = Date.now();
+  saveLocalData();
+  exitEdit();
+  renderPageList(document.getElementById('page-search').value);
+  document.getElementById('wiki-date-tag').textContent=new Date().toLocaleString();
+
+  // Build expected URL
+  const filename   = p.title+'.html';   // "PROJECT BOOT DEV.html"
+  const folder     = p.folder || 'apps';
+  const pageUrl    = GH_WIKI_BASE + folder + '/' + encodeURIComponent(filename);
+  const indexUrl   = GH_WIKI_BASE + folder + '/index.html';
+  const indexJsonUrl = GH_WIKI_BASE + folder + '/index.json';
+
+  // Show progress
+  const prog=document.getElementById('publish-progress');
+  prog.style.display='block';
+  toast('Saving & publishing…','inf');
+
+  // Collect infobox
+  const ib=infoboxes[currentPageId];
+  const infoboxData=(ib&&ib.fields?.length)?{template:ib.template,fields:ib.fields.filter(f=>f.key)}:null;
+
+  // Build the standalone wiki HTML for the published file
+  const wikiHTML = buildPublishedHTML(p.title, p.content, infoboxData);
+  // Build index.html content for the folder
+  const indexHTML = buildFolderIndexHTML(folder);
+
+  try{
+    const result = await apiCall('POST', '/api/wiki/publish', {
+      slug       : p.slug,
+      title      : p.title,
+      folder     : folder,
+      filename   : filename,
+      htmlContent: p.content,
+      wikiHTML   : wikiHTML,
+      indexHTML  : indexHTML,
+      infoboxData,
+      author     : currentUser.username,
+    });
+
+    p.published=true; p.pageUrl=result.url||pageUrl; saveLocalData();
+
+    // Update in-memory public cache
+    const key = folder+'/'+p.slug;
+    publicPages[key]={key, slug:p.slug, title:p.title, folder, updated:p.updated, content:p.content, filename};
+    try{ localStorage.setItem(PUB_CACHE,JSON.stringify(publicPages)); }catch{}
+
+    renderPageList(document.getElementById('page-search').value);
+    const linkEl=document.getElementById('wiki-page-link');
+    linkEl.innerHTML='🔗 <a href="'+esc(result.url||pageUrl)+'" target="_blank" rel="noopener">'+esc(result.url||pageUrl)+'</a>';
+    linkEl.style.display='block';
+    document.getElementById('wiki-public-badge').style.display='inline-flex';
+    document.getElementById('wiki-draft-badge').style.display='none';
+    toast('Published ✓ → '+folder+'/'+filename,'ok');
+  } catch(e){
+    // Backend unavailable — show local save confirmation and expected URLs
+    p.published=false; saveLocalData();
+    const linkEl=document.getElementById('wiki-page-link');
+    linkEl.innerHTML='💾 Saved locally. Expected URL once published: <a href="'+esc(pageUrl)+'" target="_blank" rel="noopener">'+esc(pageUrl)+'</a>'
+      +'<br><small style="color:var(--text3)">Also: <a href="'+esc(indexUrl)+'" target="_blank" style="color:var(--text3)">'+esc(indexUrl)+'</a>'
+      +' | <a href="'+esc(indexJsonUrl)+'" target="_blank" style="color:var(--text3)">index.json</a></small>';
+    linkEl.style.display='block';
+    toast('Saved locally. Backend: '+e.message,'err');
+    // Offer download of the wiki HTML file
+    downloadWikiFile(filename, wikiHTML);
+    downloadWikiFile(folder+'_index.html', indexHTML);
+  }
+  prog.style.display='none';
+}
+
+/* Build a standalone published wiki HTML file */
+function buildPublishedHTML(title, bodyContent, infoboxData){
+  const ibHTML = infoboxData ? buildInfoboxHTML(infoboxData) : '';
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(title)} — AWFLMETA</title>
+<meta name="author" content="AEDTP WORLD">
+<meta name="license" content="AEDTP WORLD FREE LICENSE (AWFL)">
+<link rel="icon" href="https://raw.githubusercontent.com/aedtpworldawfl/wiki/main/icons/awflmeta.jpg" type="image/jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+body{background:#0a0c10;color:#e8edf5;font-family:'IBM Plex Sans',sans-serif;max-width:900px;margin:0 auto;padding:40px 24px;line-height:1.75}
+h1{font-family:'Crimson Pro',Georgia,serif;font-size:36px;font-weight:300;border-bottom:2px solid #2a3450;padding-bottom:10px;margin-bottom:20px}
+h2{font-family:'Crimson Pro',serif;font-size:26px;font-weight:400;border-bottom:1px solid #2a3450;padding-bottom:6px;margin-top:28px}
+h3{font-size:20px;font-weight:600;margin-top:20px}
+a{color:#4a9eff}table{width:100%;border-collapse:collapse;margin:16px 0}
+th{background:#1e2535;padding:8px 12px;text-align:left;border:1px solid #3a4870}
+td{padding:7px 12px;border:1px solid #2a3450}
+.infobox{float:right;margin:0 0 20px 24px;background:#141820;border:1px solid #3a4870;border-radius:6px;width:260px;font-size:13px;overflow:hidden}
+.infobox-title{background:#252d40;padding:8px 12px;font-weight:600;text-align:center;border-bottom:1px solid #3a4870}
+.infobox img{width:100%;max-height:200px;object-fit:cover}
+.infobox table{margin:0}.infobox th,.infobox td{font-size:12px;padding:5px 10px;border:none;border-bottom:1px solid #2a3450}
+blockquote{border-left:3px solid #2d7dd2;padding:10px 18px;background:rgba(74,158,255,.05);margin:16px 0;font-style:italic}
+code{font-family:monospace;background:#1a2030;border:1px solid #2a3450;padding:1px 5px;border-radius:3px;color:#2dd4bf}
+pre{background:#1a2030;border:1px solid #2a3450;border-radius:6px;padding:14px;overflow-x:auto}
+.wiki-note{background:rgba(74,158,255,.07);border:1px solid #1a5fa0;border-radius:5px;padding:10px 14px;margin:12px 0}
+.wiki-warning{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.3);border-radius:5px;padding:10px 14px;margin:12px 0;color:#f87171}
+.wiki-tip{background:rgba(62,207,142,.07);border:1px solid rgba(62,207,142,.3);border-radius:5px;padding:10px 14px;margin:12px 0;color:#3ecf8e}
+nav{margin-bottom:24px;font-size:13px}nav a{color:#4a9eff;margin-right:12px;text-decoration:none}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid #2a3450;font-size:12px;color:#6b7a95;text-align:center}
+</style>
+</head>
+<body>
+<nav><a href="https://aedtpworldawfl.github.io/wiki/">← AWFLMETA Home</a><a href="../index.html">← Folder</a></nav>
+${ibHTML}
+<h1>${esc(title)}</h1>
+${bodyContent}
+<footer>© AEDTP WORLD — Published under the AEDTP WORLD FREE LICENSE (AWFL)<br>
+<a href="https://aedtpworldawfl.github.io/wiki/new/" style="color:#4a9eff">Edit on AWFLMETA</a></footer>
+</body>
+</html>`;
+}
+
+/* Build infobox HTML for embedding in published pages */
+function buildInfoboxHTML(ib){
+  if(!ib||!ib.fields?.length) return '';
+  const imgF =ib.fields.find(f=>f.key?.toLowerCase()==='image');
+  const nameF=ib.fields.find(f=>f.key?.toLowerCase()==='name');
+  const rows =ib.fields.filter(f=>f.key?.toLowerCase()!=='image'&&f.key&&f.value);
+  let h=`<div class="infobox"><div class="infobox-title">${esc(ib.template)}</div>`;
+  if(imgF?.value){ h+=`<img src="${esc(imgF.value)}" alt="${esc(nameF?.value||'')}"`; if(nameF?.value) h+=` title="${esc(nameF.value)}"`; h+='>'; }
+  if(rows.length){
+    h+=`<table>`;
+    rows.forEach(f=>{
+      if(!f.key||!f.value) return;
+      const v=isUrl(f.value)?`<a href="${esc(f.value)}" target="_blank">${esc(f.value.replace(/^https?:\/\//,'').substring(0,30))}</a>`:esc(f.value);
+      h+=`<tr><th>${esc(f.key)}</th><td>${v}</td></tr>`;
+    });
+    h+=`</table>`;
+  }
+  h+=`</div>`;
+  return h;
+}
+
+/* Build folder index.html */
+function buildFolderIndexHTML(folder){
+  const pages = Object.values(publicPages).filter(p=>p.folder===folder)
+    .concat(Object.values(localPages).filter(p=>p.folder===folder&&p.published));
+  const icon = {apps:'📱',artists:'🎨',biography:'📖',business:'💼',dictionary:'📚',education:'🎓',music:'🎵',news:'📰'}[folder]||'📄';
+  const rows = pages.map(p=>{
+    const fn = (p.filename||p.title+'.html');
+    const d  = p.updated ? new Date(p.updated).toLocaleDateString() : '—';
+    return `<tr><td><a href="${esc(encodeURIComponent(fn))}">${esc(p.title)}</a></td><td>${d}</td></tr>`;
+  }).join('');
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${icon} ${folder.toUpperCase()} — AWFLMETA</title>
+<link rel="icon" href="https://raw.githubusercontent.com/aedtpworldawfl/wiki/main/icons/awflmeta.jpg" type="image/jpeg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Crimson+Pro:wght@300;400&display=swap" rel="stylesheet">
+<style>
+body{background:#0a0c10;color:#e8edf5;font-family:'IBM Plex Sans',sans-serif;max-width:800px;margin:0 auto;padding:40px 24px}
+h1{font-family:'Crimson Pro',serif;font-size:32px;font-weight:300;margin-bottom:6px}
+h1 span{opacity:.5;font-size:24px;margin-right:10px}
+.subtitle{font-size:13px;color:#6b7a95;margin-bottom:32px}
+table{width:100%;border-collapse:collapse}
+th{background:#1e2535;padding:10px 16px;text-align:left;font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid #3a4870}
+td{padding:10px 16px;border:1px solid #2a3450;font-size:14px}
+tr:hover td{background:rgba(255,255,255,.03)}
+a{color:#4a9eff;text-decoration:none}a:hover{text-decoration:underline}
+nav{margin-bottom:24px;font-size:13px}nav a{color:#4a9eff;margin-right:12px}
+.empty{text-align:center;padding:60px;color:#6b7a95;font-size:14px}
+footer{margin-top:48px;font-size:12px;color:#6b7a95;border-top:1px solid #2a3450;padding-top:16px;text-align:center}
+</style>
+</head>
+<body>
+<nav><a href="https://aedtpworldawfl.github.io/wiki/">← AWFLMETA Home</a><a href="https://aedtpworldawfl.github.io/wiki/new/">✎ Add Page</a></nav>
+<h1><span>${icon}</span>${folder.charAt(0).toUpperCase()+folder.slice(1)}</h1>
+<p class="subtitle">All wiki pages in the <strong>${folder}</strong> category — AEDTP WORLD FREE LICENSE (AWFL)</p>
+${rows ? `<table><thead><tr><th>Title</th><th>Updated</th></tr></thead><tbody>${rows}</tbody></table>` : '<div class="empty">No pages in this category yet.</div>'}
+<footer>© AEDTP WORLD — <a href="https://aedtpworldawfl.github.io/wiki/new/">AWFLMETA</a></footer>
+</body>
+</html>`;
+}
+
+/* ─── DOWNLOAD WIKI FILE (fallback when API unavailable) ─── */
+function downloadWikiFile(filename, content){
+  const blob = new Blob([content],{type:'text/html;charset=utf-8'});
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
+
+/* ─── CREATE PAGE ─── */
+function selectFolder(folder, btn){
+  selectedFolder=folder;
+  document.querySelectorAll('.folder-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('folder-error').style.display='none';
+  updateSlugPreview();
+}
+
+function openCreateModal(){
+  if(!currentUser){ openModal('modal-signin'); toast('Sign in to create a wiki page','inf'); return; }
+  selectedFolder=null;
+  document.querySelectorAll('.folder-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('new-page-title').value='';
+  document.getElementById('new-page-filename').value='';
+  document.getElementById('slug-preview-url').textContent='';
+  document.getElementById('folder-error').style.display='none';
+  openModal('modal-create');
+  setTimeout(()=>document.getElementById('new-page-title').focus(),100);
+}
+
+function updateSlugPreview(){
+  const t=document.getElementById('new-page-title').value;
+  if(!t){ document.getElementById('new-page-filename').value=''; document.getElementById('slug-preview-url').textContent=''; return; }
+  const filename = t+'.html';
+  const slug     = t.replace(/\s+/g,'_').replace(/[^\w\-\.]/g,'');
+  document.getElementById('new-page-filename').value=filename;
+  if(selectedFolder){
+    document.getElementById('slug-preview-url').textContent=
+      GH_WIKI_BASE+selectedFolder+'/'+encodeURIComponent(filename);
+  }
+}
+
+function createPage(){
+  const title=document.getElementById('new-page-title').value.trim();
+  if(!title){ toast('Please enter a title','err'); return; }
+  if(!selectedFolder){ document.getElementById('folder-error').style.display='block'; return; }
+  const slug     = title.replace(/\s+/g,'_').replace(/[^\w\-\.]/g,'');
+  const filename = title+'.html';
+  const key      = selectedFolder+'/'+slug;
+
+  if(publicPages[key]||Object.values(localPages).find(p=>p.slug===slug&&p.folder===selectedFolder)){
+    toast('A page with this title already exists in '+selectedFolder,'err'); return;
+  }
+  const id='p_'+Date.now();
+  localPages[id]={id, title, slug, folder:selectedFolder, filename, content:'', created:Date.now(), updated:Date.now(), published:false};
+  saveLocalData();
+  closeModal('modal-create');
+  currentPageId=id; currentSlug='__draft__'+id;
+  renderPageList();
+  document.getElementById('wiki-title-display').textContent=title;
+  document.getElementById('wiki-date-tag').textContent=new Date().toLocaleString();
+  document.getElementById('wiki-slug-tag').textContent=slug;
+  document.getElementById('wiki-cat-tag').textContent='📁 '+selectedFolder;
+  document.getElementById('wiki-cat-tag').style.display='inline-flex';
+  document.getElementById('wiki-public-badge').style.display='none';
+  document.getElementById('wiki-draft-badge').style.display='inline-flex';
+  document.getElementById('wiki-page-link').style.display='none';
+  document.getElementById('wiki-content').innerHTML='';
+  document.getElementById('infobox-container').style.display='none';
+  document.getElementById('btn-edit').style.display='flex';
+  document.getElementById('btn-delete').style.display='flex';
+  setTimeout(enterEdit,100);
+  toast('Page created in /'+selectedFolder+'/ — start writing!','ok');
+}
+
+/* ─── DELETE ─── */
+function deleteCurrentPage(){
+  if(!currentUser){ toast('Sign in to delete','err'); return; }
+  const title=currentPageId?localPages[currentPageId]?.title:currentSlug;
+  if(!confirm('Delete "'+title+'"? This cannot be undone.')) return;
+  if(currentPageId){ delete localPages[currentPageId]; if(infoboxes[currentPageId]) delete infoboxes[currentPageId]; saveLocalData(); }
+  if(currentSlug && publicPages[currentSlug]){ delete publicPages[currentSlug]; try{ localStorage.setItem(PUB_CACHE,JSON.stringify(publicPages)); }catch{}; }
+  currentPageId=null; currentSlug=null;
+  renderPageList(); showHome();
+  toast('Page deleted','inf');
+}
+
+/* ─── FORMAT ─── */
+function execFmt(cmd){ document.getElementById('wiki-content').focus(); document.execCommand(cmd,false,null); }
+function setFontSize(v){ if(v){ document.getElementById('wiki-content').focus(); document.execCommand('fontSize',false,v); } }
+function setFontFamily(v){ if(v){ document.getElementById('wiki-content').focus(); document.execCommand('fontName',false,v); } }
+function applyHighlight(){ document.getElementById('wiki-content').focus(); document.execCommand('hiliteColor',false,document.getElementById('hl-color').value); }
+function applyTextColor(){ document.getElementById('wiki-content').focus(); document.execCommand('foreColor',false,document.getElementById('tc-color').value); }
+function applyBgColor(){
+  const wc=document.getElementById('wiki-content'); wc.focus();
+  const c=document.getElementById('bg-color').value;
+  document.execCommand('hiliteColor',false,c);
+}
+
+/* Format blocks */
+function fmt(tag){
+  const wc=document.getElementById('wiki-content'); wc.focus();
+  if(['h1','h2','h3','h4','h5','h6','p','pre'].includes(tag))
+    document.execCommand('formatBlock',false,'<'+tag+'>');
+}
+function wrapSel(tag){
+  const sel=window.getSelection(); if(!sel.rangeCount) return;
+  const range=sel.getRangeAt(0);
+  if(range.collapsed){ toast('Select text first','inf'); return; }
+  const el=document.createElement(tag);
+  try{ range.surroundContents(el); }catch{ document.execCommand('insertHTML',false,'<'+tag+'>'+range.toString()+'</'+tag+'>'); }
+}
+function insertBlock(tag){
+  document.getElementById('wiki-content').focus();
+  document.execCommand('formatBlock',false,'<'+tag+'>');
+}
+function insertHR(){
+  document.getElementById('wiki-content').focus();
+  document.execCommand('insertHTML',false,'<hr>');
+}
+function insertTable(){
+  document.getElementById('wiki-content').focus();
+  document.execCommand('insertHTML',false,'<br><table><thead><tr><th>Column 1</th><th>Column 2</th><th>Column 3</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table><br>');
+}
+function insertBox(cls, placeholder){
+  document.getElementById('wiki-content').focus();
+  document.execCommand('insertHTML',false,'<div class="'+cls+'">'+placeholder+'</div><p></p>');
+}
+
+/* ─── INSERT MEDIA ─── */
+function promptInsert(type){
+  insertType=type;
+  const titles={link:'🔗 Insert Link',image:'🖼 Insert Image',video:'▶ Insert Video',audio:'♪ Insert Audio'};
+  document.getElementById('insert-modal-title').textContent=titles[type];
+  document.getElementById('insert-url').value='';
+  document.getElementById('insert-text').value='';
+  document.getElementById('insert-alt').value='';
+  document.getElementById('insert-text-group').style.display=(type==='link')?'block':'none';
+  document.getElementById('insert-alt-group').style.display=(type==='image')?'block':'none';
+  document.getElementById('insert-align-group').style.display=(type==='image')?'block':'none';
+  savedSel=saveSelection();
+  openModal('modal-insert');
+  setTimeout(()=>document.getElementById('insert-url').focus(),100);
+}
+function doInsert(){
+  const url=document.getElementById('insert-url').value.trim();
+  if(!url){ toast('Enter a URL','err'); return; }
+  const wc=document.getElementById('wiki-content'); wc.focus(); restoreSelection(savedSel);
+  let html='';
+  if(insertType==='link'){
+    const txt=document.getElementById('insert-text').value.trim()||url;
+    html=`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(txt)}</a>`;
+  } else if(insertType==='image'){
+    const alt=document.getElementById('insert-alt').value.trim();
+    const align=document.getElementById('insert-align').value;
+    const cls=align==='left'?'wiki-img-left':align==='right'?'wiki-img-right':'wiki-img';
+    html=`<img src="${esc(url)}" class="${cls}" alt="${esc(alt)}" loading="lazy">`;
+    if(alt) html+=`<div class="wiki-caption">${esc(alt)}</div>`;
+  } else if(insertType==='video'){
+    html=`<video src="${esc(url)}" controls style="max-width:100%;border-radius:6px;margin:8px 0"></video>`;
+  } else if(insertType==='audio'){
+    html=`<audio src="${esc(url)}" controls style="width:100%;margin:8px 0"></audio>`;
+  }
+  document.execCommand('insertHTML',false,html);
+  closeModal('modal-insert');
+}
+
+/* ─── TOC ─── */
+function buildTOC(){
+  if(!isEditMode){ toast('Enter edit mode first','inf'); return; }
+  const wc=document.getElementById('wiki-content');
+  const headings=[...wc.querySelectorAll('h1,h2,h3,h4,h5,h6')];
+  if(!headings.length){ toast('No headings found','inf'); return; }
+  let toc='<div id="toc"><div class="toc-title">📋 Contents</div>';
+  headings.forEach((h,i)=>{
+    h.id='toc_'+i;
+    const level=parseInt(h.tagName[1]);
+    const cls=level===1?'':level===2?'toc-sub':'toc-sub2';
+    toc+=`<a href="#toc_${i}" class="${cls}">${h.textContent}</a>`;
+  });
+  toc+='</div>';
+  document.execCommand('insertHTML',false,toc);
+}
+
+/* ─── COPY / PASTE ─── */
+function copyAll(){
+  const wc=document.getElementById('wiki-content'),r=document.createRange();
+  r.selectNodeContents(wc); const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  document.execCommand('copy'); s.removeAllRanges(); toast('Copied to clipboard','ok');
+}
+async function pasteContent(){
+  document.getElementById('wiki-content').focus();
+  try{ const t=await navigator.clipboard.readText(); document.execCommand('insertText',false,t); toast('Pasted','ok'); }
+  catch{ toast('Use Ctrl+V to paste','inf'); }
+}
+
+/* ─── EXPORT / PRINT ─── */
+function exportHTML(){
+  if(!currentSlug&&!currentPageId){ toast('Open a page first','inf'); return; }
+  const title  = document.getElementById('wiki-title-display').textContent;
+  const content= document.getElementById('wiki-content').innerHTML;
+  const p      = currentPageId?localPages[currentPageId]:null;
+  const html   = buildPublishedHTML(title, content, p?infoboxes[currentPageId]:null);
+  const fn     = (p?p.filename:title+'.html');
+  downloadWikiFile(fn, html);
+  toast('Exported '+fn,'ok');
+}
+function printPage(){
+  window.print();
+}
+function wordCount(){
+  const txt=document.getElementById('wiki-content').innerText||'';
+  const words=txt.trim().split(/\s+/).filter(Boolean).length;
+  const chars=txt.replace(/\s/g,'').length;
+  toast('Words: '+words+' | Characters: '+chars,'inf');
+}
+
+/* ─── INFOBOX MODAL ─── */
+function openInfoboxModal(){
+  if(!currentPageId){ toast('Create or open a page first','inf'); return; }
+  if(!currentUser){ toast('Sign in to edit','err'); return; }
+  savedSel=saveSelection(); ibTemplate=null;
+  const grid=document.getElementById('ib-template-grid');
+  grid.innerHTML=Object.keys(IB_TEMPLATES).map(tpl=>`
+    <button style="background:var(--bg4);border:1px solid var(--border);color:var(--text2);padding:10px 6px;border-radius:5px;cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;font-family:var(--font-sans)"
+      onmouseover="this.style.borderColor='var(--accent2)';this.style.color='var(--text)'"
+      onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text2)'"
+      onclick="ibSelectTemplate('${tpl}')">
+      ${ibIcon(tpl)}<br>${tpl}
+    </button>`).join('');
+  document.getElementById('ib-step1').style.display='block';
+  document.getElementById('ib-step2').style.display='none';
+  document.getElementById('ib-footer').style.display='none';
+  openModal('modal-infobox');
+}
+function ibIcon(t){ return {Artist:'🎤',Business:'💼',Software:'💻',Person:'👤',Company:'🏢',Group:'👥',Music:'🎵',Film:'🎬',Place:'📍',Custom:'✏️'}[t]||'📄'; }
+function ibSelectTemplate(tpl){
+  ibTemplate=tpl; document.getElementById('ib-tpl-name').textContent=tpl;
+  document.getElementById('ib-step1').style.display='none';
+  document.getElementById('ib-step2').style.display='block';
+  document.getElementById('ib-footer').style.display='flex';
+  const existing=infoboxes[currentPageId];
+  const fields=(existing&&existing.template===tpl)?existing.fields:IB_TEMPLATES[tpl].map(k=>({key:k,value:''}));
+  renderIbFields(fields);
+}
+function ibGoBack(){ document.getElementById('ib-step1').style.display='block'; document.getElementById('ib-step2').style.display='none'; document.getElementById('ib-footer').style.display='none'; }
+function renderIbFields(fields){
+  document.getElementById('ib-fields-list').innerHTML=fields.map((f,i)=>
+    `<div class="ib-field-row" id="ibrow_${i}">
+      <input class="ib-field-key" value="${esc(f.key)}" placeholder="Field name" id="ibk_${i}">
+      <input class="ib-field-val" value="${esc(f.value)}" placeholder="Value / URL" id="ibv_${i}">
+      <button class="ib-field-del" onclick="ibDelField(${i})" title="Remove">×</button>
+    </div>`).join('');
+}
+function ibAddField(){
+  const n=document.querySelectorAll('.ib-field-row').length;
+  const div=document.createElement('div'); div.className='ib-field-row'; div.id='ibrow_'+n;
+  div.innerHTML=`<input class="ib-field-key" placeholder="Field name" id="ibk_${n}"><input class="ib-field-val" placeholder="Value / URL" id="ibv_${n}"><button class="ib-field-del" onclick="ibDelField(${n})" title="Remove">×</button>`;
+  document.getElementById('ib-fields-list').appendChild(div);
+}
+function ibDelField(i){ const r=document.getElementById('ibrow_'+i); if(r) r.remove(); }
+function collectIbFields(){
+  const keys=[...document.querySelectorAll('.ib-field-key')].map(e=>e.value.trim());
+  const vals=[...document.querySelectorAll('.ib-field-val')].map(e=>e.value.trim());
+  return keys.map((k,i)=>({key:k,value:vals[i]}));
+}
+function saveInfobox(){
+  if(!ibTemplate) return;
+  infoboxes[currentPageId]={template:ibTemplate,fields:collectIbFields()};
+  saveLocalData(); closeModal('modal-infobox'); renderInfobox(currentPageId);
+  toast('Infobox saved','ok');
+}
+
+/* ─── SEARCH ─── */
+function searchWiki(q){
+  const box=document.getElementById('search-results');
+  if(!q||q.length<2){ box.style.display='none'; return; }
+  const lq=q.toLowerCase();
+  const res=Object.values(publicPages).filter(p=>
+    p.title.toLowerCase().includes(lq)||(p.content||'').toLowerCase().includes(lq)
+  ).slice(0,10);
+  if(!res.length){ box.innerHTML=`<div class="sr-empty">No results for "<b>${esc(q)}</b>"</div>`; box.style.display='block'; return; }
+  box.innerHTML=res.map(p=>{
+    const txt=(p.content||'').replace(/<[^>]+>/g,'').substring(0,120);
+    const hi=txt.toLowerCase().indexOf(lq);
+    const snip=hi>=0?txt.substring(Math.max(0,hi-20),hi+70)+'…':txt.substring(0,80)+'…';
+    return `<div class="sr-item" onclick="loadPage('${esc(p.key)}');closeSearch()">
+      <div class="sri-cat">${esc(p.folder||'')}</div>
+      <div class="sri-title">${esc(p.title)}</div>
+      <div class="sri-snippet">${esc(snip)||'Click to view'}</div>
+    </div>`;
+  }).join('');
+  box.style.display='block';
+}
+function closeSearch(){ document.getElementById('search-results').style.display='none'; document.getElementById('search-input').value=''; }
+
+/* ─── SELECTION HELPERS ─── */
+function saveSelection(){ const s=window.getSelection(); return s.rangeCount?s.getRangeAt(0).cloneRange():null; }
+function restoreSelection(r){ if(!r) return; const s=window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+
+/* ─── MODALS ─── */
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); });
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));
+  if((e.ctrlKey||e.metaKey)&&e.key==='s'&&isEditMode){ e.preventDefault(); saveCurrentPage(); }
+  if((e.ctrlKey||e.metaKey)&&e.key==='e'&&currentSlug&&!isEditMode){ e.preventDefault(); if(currentUser) toggleEdit(); }
+  if((e.ctrlKey||e.metaKey)&&e.key==='z'&&isEditMode){ e.preventDefault(); execFmt('undo'); }
+  if((e.ctrlKey||e.metaKey)&&(e.key==='y'||(e.shiftKey&&e.key==='Z'))&&isEditMode){ e.preventDefault(); execFmt('redo'); }
+});
+
+/* ─── HELPERS ─── */
+function showFormErr(el,msg){ el.textContent=msg; el.classList.add('show'); }
+function toast(msg,type='inf'){
+  const el=document.createElement('div'); el.className='toast '+type; el.textContent=msg;
+  document.getElementById('toast-wrap').appendChild(el);
+  setTimeout(()=>el.remove(),3200);
+}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ─── HASH ROUTING ─── */
+function routeFromHash(){
+  const hash=window.location.hash.replace('#','');
+  if(!hash) return;
+  // Key format: "folder/slug"
+  if(publicPages[hash]){ loadPage(hash); return; }
+  // Legacy slug-only (try to find in any folder)
+  const found=Object.values(publicPages).find(p=>p.slug===hash);
+  if(found){ loadPage(found.key); return; }
+  // Local draft
+  if(currentUser){
+    const lp=Object.values(localPages).find(p=>p.slug===hash||p.id===hash);
+    if(lp){ loadLocalDraft(lp.id); return; }
+  }
+  // Try to load directly anyway (may be published but not in local cache)
+  toast('Loading page: '+hash+'…','inf');
+}
+
+/* ─── INIT ─── */
+async function init(){
+  loadLocalData();
+  loadAuth();
+  fetchAccountsSeed(); // async, non-blocking
+  await loadPublicPages();
+}
+window.addEventListener('hashchange',routeFromHash);
+window.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
+
+          
